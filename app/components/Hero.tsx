@@ -2,8 +2,8 @@ export default function Hero() {
   return (
     <section id="hero" className="relative px-8 md:px-20 pt-28 pb-10 overflow-hidden text-center">
       <div
-        className="absolute -top-20 -left-20 w-[500px] h-[500px] -z-10 blur-[80px] opacity-50 pointer-events-none"
-        style={{ background: "radial-gradient(circle, #FFDDE2 0%, rgba(255,255,255,0) 70%)" }}
+        className="absolute -top-20 -left-20 w-125 h-125 -z-10 blur-[80px] opacity-50 pointer-events-none"
+        style={{ background: "radial-gradient(circle, #FFB7C5 0%, rgba(255,255,255,0) 70%)" }}
       />
 
       <div className="max-w-5xl mx-auto relative z-10">

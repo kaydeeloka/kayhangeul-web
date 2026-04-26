@@ -20,14 +20,14 @@ export default function Product() {
       <div className="max-w-5xl mx-auto w-full">
 
         {/* Card */}
-        <div className="bg-hanji-cream rounded-[2rem] border border-deep-pink/40 p-8 md:p-10 flex flex-col lg:flex-row gap-10 shadow-[0_8px_40px_rgba(248,177,186,0.25)]">
+        <div className="bg-hanji-cream rounded-4xl border border-deep-pink/40 p-10 md:p-14 flex flex-col lg:flex-row gap-12 shadow-[0_8px_40px_rgba(248,177,186,0.25)]">
 
           {/* Left: image + discount badge */}
-          <div className="relative lg:w-[40%] flex-shrink-0 min-h-[280px]">
-            <div className="absolute -top-4 -left-4 bg-korean-red text-white px-4 py-2 rounded-xl font-black text-sm z-10 shadow-md">
+          <div className="relative lg:w-[40%] shrink-0 min-h-70">
+            <div className="absolute -top-5 -left-5 bg-korean-red text-white px-5 py-3 rounded-2xl font-black text-base z-10 shadow-md">
               38% OFF
             </div>
-            <div className="relative rounded-2xl overflow-hidden h-full min-h-[280px]">
+            <div className="relative rounded-2xl overflow-hidden h-full min-h-70">
               <Image
                 src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1500"
                 alt="The Ultimate Pack"
@@ -65,7 +65,7 @@ export default function Product() {
               <ul className="space-y-1.5">
                 {features.map((feature) => (
                   <li key={feature} className="text-sm opacity-70 flex items-start gap-2">
-                    <span className="text-deep-pink mt-0.5 flex-shrink-0">•</span>
+                    <span className="text-deep-pink mt-0.5 shrink-0">•</span>
                     {feature}
                   </li>
                 ))}

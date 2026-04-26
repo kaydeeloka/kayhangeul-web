@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter, Cormorant_Garamond, Noto_Sans_KR, Black_Han_Sans } from "next/font/google";
+import { Inter, Cormorant_Garamond, Noto_Sans_KR, Nanum_Myeongjo } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,10 +23,10 @@ const notoSansKR = Noto_Sans_KR({
   weight: ["300", "400", "700"],
 });
 
-const blackHanSans = Black_Han_Sans({
-  variable: "--font-black-han",
+const nanumMyeongjo = Nanum_Myeongjo({
+  variable: "--font-nanum",
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="ms"
-      className={`${inter.variable} ${cormorant.variable} ${notoSansKR.variable} ${blackHanSans.variable} h-full`}
+      className={`${inter.variable} ${cormorant.variable} ${notoSansKR.variable} ${nanumMyeongjo.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         {children}

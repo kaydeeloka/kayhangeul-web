@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export default function Navbar() {
   function redirectToPayment(amount: number, product: string) {
     // TODO: connect to payment provider
@@ -9,16 +11,16 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 md:px-20 py-6 bg-white/70 backdrop-blur-xl border-b border-pink-100">
       <div className="text-xl font-black tracking-tighter uppercase">
-        <a href="/">
+        <Link href="/">
           KAYHANGEUL{" "}
           <span className="text-xs align-top text-deep-pink">●</span>
-        </a>
+        </Link>
       </div>
 
       <div className="hidden lg:flex space-x-10 text-[10px] uppercase tracking-[0.3em] font-extrabold">
-        <a href="/" className="hover:text-deep-pink transition-colors">Home</a>
-        <a href="/library" className="hover:text-deep-pink transition-colors">Library</a>
-        <a href="/gallery" className="hover:text-deep-pink transition-colors">Gallery</a>
+        <Link href="/" className="hover:text-deep-pink transition-colors">Home</Link>
+        <Link href="/library" className="hover:text-deep-pink transition-colors">Library</Link>
+        <Link href="/gallery" className="hover:text-deep-pink transition-colors">Gallery</Link>
       </div>
 
       <button

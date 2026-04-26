@@ -1,32 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --hanji-cream: #FFFDF9;
+  --warm-linen: #F9F9F7;
+  --cherry-pink: #F8B1BA;
+  --light-pink: #FFF5F7;
   --korean-red: #CD313A;
   --korean-blue: #0047A0;
-  --cherry-pink: #FFDDE2;
-  --soft-pink: #FFF0F2;
-  --deep-pink: #F8B1BA;
+  --gold: #FFC300;
+  --orange-hot: #FF8C00;
   --charcoal: #1A1A1A;
+  --text-dark: #333333;
+  --text-mid: #666666;
+  --text-light: #999999;
+  --border: #dddddd;
 }
 
 @theme inline {
-  --color-hanji-cream: var(--hanji-cream);
+  /* Colors */
+  --color-warm-linen: var(--warm-linen);
+  --color-cherry-pink: var(--cherry-pink);
+  --color-light-pink: var(--light-pink);
   --color-korean-red: var(--korean-red);
   --color-korean-blue: var(--korean-blue);
-  --color-cherry-pink: var(--cherry-pink);
-  --color-soft-pink: var(--soft-pink);
-  --color-deep-pink: var(--deep-pink);
+  --color-gold: var(--gold);
+  --color-orange-hot: var(--orange-hot);
   --color-charcoal: var(--charcoal);
+  --color-text-dark: var(--text-dark);
+  --color-text-mid: var(--text-mid);
+  --color-text-light: var(--text-light);
+  --color-border: var(--border);
+
+  /* Aliases kept for existing component classes */
+  --color-hanji-cream: var(--warm-linen);
+  --color-deep-pink: var(--cherry-pink);
+  --color-soft-pink: var(--light-pink);
+
+  /* Fonts */
   --font-sans: var(--font-inter);
   --font-serif: var(--font-cormorant);
   --font-kr: var(--font-noto-kr);
-  --font-display: var(--font-black-han);
+  --font-display: var(--font-nanum);
 }
 
 body {
-  background-color: var(--hanji-cream);
-  color: var(--charcoal);
+  background-color: var(--warm-linen);
+  color: var(--text-dark);
   overflow-x: hidden;
 }
 
