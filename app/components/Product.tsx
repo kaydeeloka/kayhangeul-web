@@ -27,7 +27,7 @@ export default function Product() {
             <div className="relative rounded-2xl overflow-hidden h-full min-h-70">
               <Image
                 src="/img/traveler-mockup.png"
-                alt="The Ultimate Pack"
+                alt="KayHangeul : 50 Frasa Korea Edisi Traveler"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 loading="eager"
@@ -42,12 +42,12 @@ export default function Product() {
             {/* Header */}
             <div className="space-y-2">
               <span className="inline-block border border-yellow-400 bg-yellow-50 text-yellow-700 text-[11px] font-sans font-bold px-3 py-1 rounded-full">
-                Spring 2024 Edition
+                Spring 2026 Edition
               </span>
               <h2 className="font-sans font-black text-4xl tracking-tighter leading-tight">
-                The Ultimate Pack
+                KayHangeul : 50 Frasa Korea Edisi Traveler
               </h2>
-              <p className="font-serif italic text-lg opacity-50">Korean Traveler&apos;s Complete Guide</p>
+              <p className="font-serif italic text-lg text-cherry-pink">Korean Traveler&apos;s Complete Guide</p>
             </div>
 
             {/* Description */}

@@ -102,7 +102,7 @@ export default function KayHangeulTravelerPage() {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                 <div className="absolute bottom-5 left-5 text-white">
-                  <p className="font-sans font-black text-2xl uppercase tracking-tight">The Ultimate Pack</p>
+                  <p className="font-sans font-black text-2xl uppercase tracking-tight">KayHangeul : 50 Frasa Korea Edisi Traveler</p>
                   <p className="font-serif italic text-lg">KayHangeul Traveler Edition</p>
                 </div>
               </div>
@@ -110,7 +110,7 @@ export default function KayHangeulTravelerPage() {
               {/* Title */}
               <div className="space-y-2">
                 <span className="inline-block border border-yellow-400 bg-yellow-50 text-yellow-700 text-[11px] font-sans font-bold px-3 py-1 rounded-full">
-                  Spring 2024 Edition
+                  Spring 2026 Edition
                 </span>
                 <h1 className="font-sans font-black text-4xl md:text-5xl tracking-tighter leading-tight">
                   KayHangeul Traveler Pack
