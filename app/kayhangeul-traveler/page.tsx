@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Link from "next/link";
+import Image from "next/image";
 
 const features = [
   "50+ Frasa Harian Korea untuk situasi sebenar",
@@ -95,10 +96,13 @@ export default function KayHangeulTravelerPage() {
 
               {/* Cover image */}
               <div className="relative rounded-3xl overflow-hidden aspect-video bg-light-pink shadow-lg">
-                <img
+                <Image
                   src="/img/traveler-cover.png"
                   alt="KayHangeul Traveler Pack"
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  priority
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                 <div className="absolute bottom-5 left-5 text-white">

@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const menuLinks = [
   { label: "도서관 Library", href: "/library" },
   { label: "특가 Deals", href: "/deals" },
@@ -27,7 +29,7 @@ export default function Footer() {
 
         {/* Brand */}
         <div className="space-y-5">
-          <h2 className="font-serif italic text-5xl font-light text-white">KayHangeul</h2>
+          <Image src="/logo-white.png" alt="KayHangeul" width={180} height={50} className="h-11 w-auto object-contain" />
           <div className="space-y-1 text-sm opacity-60 leading-relaxed">
             <p>한국어와 한국 문화를 배울 수 있는 프리미엄 전자책 플랫폼</p>
             <p>Premium Korean language &amp; culture ebook platform</p>
