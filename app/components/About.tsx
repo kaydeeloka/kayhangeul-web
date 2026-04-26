@@ -5,13 +5,14 @@ export default function About() {
     <section id="about" className="px-8 md:px-20 py-32 bg-soft-pink relative overflow-hidden">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-20">
         <div className="w-full md:w-5/12">
-          <div className="aspect-3/4 bg-white rounded-[40px] overflow-hidden -rotate-3 hover:rotate-0 transition-all duration-700 shadow-2xl border-12 border-white">
+          <div className="relative aspect-3/4 bg-white rounded-[40px] overflow-hidden -rotate-3 hover:rotate-0 transition-all duration-700 shadow-2xl border-12 border-white">
             <Image
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000"
+              src="/img/kaydee.jpg"
               alt="Kay — Founder of KayHangeul"
-              width={1000}
-              height={1333}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="object-cover object-top"
+              priority
             />
           </div>
         </div>

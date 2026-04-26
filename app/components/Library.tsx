@@ -18,28 +18,28 @@ const books: Book[] = [
     subtitle: "Complete guide to mastering Korean alphabet and pronunciation",
     price: 45,
     badge: "BEST",
-    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600",
+    image: "/kayhangeul%20mockup.png",
   },
   {
     title: "Culture Guide",
     subtitle: "Explore Korean traditions, customs, and modern culture",
     price: 52,
     badge: "HOT",
-    image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600",
+    image: "/kayhangeul%20mockup.png",
   },
   {
     title: "Modern Slang",
     subtitle: "Learn contemporary Korean expressions and everyday phrases",
     price: 38,
     badge: "NEW",
-    image: "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=600",
+    image: "/kayhangeul%20mockup.png",
   },
   {
     title: "Ultimate Pack",
     subtitle: "Everything you need to become fluent in Korean language",
     price: 89,
     badge: "BEST",
-    image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600",
+    image: "/kayhangeul%20mockup.png",
   },
 ];
 
@@ -77,6 +77,7 @@ export default function Library() {
                   src={book.image}
                   alt={book.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
                   className="object-cover"
                 />
                 <span className="font-sans font-black absolute top-3 left-3 bg-charcoal text-white text-[10px] px-3 py-1 rounded-full tracking-widest">

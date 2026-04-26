@@ -26,9 +26,11 @@ export default function Product() {
             </div>
             <div className="relative rounded-2xl overflow-hidden h-full min-h-70">
               <Image
-                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1500"
+                src="/img/traveler-mockup.png"
                 alt="The Ultimate Pack"
                 fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                loading="eager"
                 className="object-cover"
               />
             </div>

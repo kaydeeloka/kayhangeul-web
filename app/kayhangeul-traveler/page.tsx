@@ -96,7 +96,7 @@ export default function KayHangeulTravelerPage() {
               {/* Cover image */}
               <div className="relative rounded-3xl overflow-hidden aspect-video bg-light-pink shadow-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=1500"
+                  src="/img/traveler-cover.png"
                   alt="KayHangeul Traveler Pack"
                   className="w-full h-full object-cover"
                 />
