@@ -51,14 +51,14 @@ export default function Library() {
         {/* Header */}
         <div className="flex items-start justify-between mb-12">
           <div>
-            <h2 className="font-sans text-5xl md:text-6xl font-black tracking-tight">
+            <h2 className="font-sans font-black text-5xl md:text-6xl tracking-tight">
               도서 라이브러리
             </h2>
-            <p className="font-serif italic text-cherry-pink text-lg mt-2">Book Library</p>
+            <p className="font-serif italic text-cherry-pink text-xl mt-2">Book Library</p>
           </div>
           <a
             href="/library"
-            className="hidden sm:inline-flex items-center gap-1 border border-charcoal px-6 py-3 rounded-full text-sm font-bold hover:bg-charcoal hover:text-white transition-all duration-300 mt-3 shrink-0"
+            className="hidden sm:inline-flex items-center gap-1 border border-charcoal px-6 py-3 rounded-full text-sm font-sans font-bold hover:bg-charcoal hover:text-white transition-all duration-300 mt-3 shrink-0"
           >
             전체보기 View All →
           </a>
@@ -71,7 +71,7 @@ export default function Library() {
               key={book.title}
               className="bg-light-pink rounded-3xl border border-cherry-pink/40 p-4 flex flex-col gap-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
             >
-              {/* Image floats inside card with padding */}
+              {/* Image */}
               <div className="relative h-48 rounded-2xl overflow-hidden shrink-0">
                 <Image
                   src={book.image}
@@ -79,25 +79,25 @@ export default function Library() {
                   fill
                   className="object-cover"
                 />
-                <span className="absolute top-3 left-3 bg-charcoal text-white text-[10px] font-black px-3 py-1 rounded-full tracking-widest">
+                <span className="font-sans font-black absolute top-3 left-3 bg-charcoal text-white text-[10px] px-3 py-1 rounded-full tracking-widest">
                   {book.badge}
                 </span>
               </div>
 
               {/* Content */}
               <div className="flex flex-col flex-1 px-1">
-                <h3 className="font-bold text-[15px] text-text-dark leading-snug">
+                <h3 className="font-sans font-bold text-base text-text-dark leading-snug">
                   {book.title}
                 </h3>
-                <p className="text-xs text-text-mid leading-relaxed mt-1.5 mb-4">
+                <p className="font-sans text-sm text-text-mid leading-relaxed mt-1.5 mb-4">
                   {book.subtitle}
                 </p>
-                <p className="font-black text-lg text-text-dark mb-4">
+                <p className="font-sans font-black text-xl text-text-dark mb-4">
                   RM {book.price}
                 </p>
                 <button
                   onClick={() => console.log(`Add to cart: ${book.title}`)}
-                  className="mt-auto w-full bg-charcoal text-white py-3.5 rounded-xl text-sm font-bold hover:bg-cherry-pink transition-colors duration-300 cursor-pointer"
+                  className="mt-auto w-full bg-charcoal text-white py-3.5 rounded-xl font-sans font-bold text-sm hover:bg-cherry-pink hover:text-charcoal transition-colors duration-300 cursor-pointer"
                 >
                   Add to Cart
                 </button>
@@ -110,7 +110,7 @@ export default function Library() {
         <div className="sm:hidden mt-8 text-center">
           <a
             href="/library"
-            className="border border-charcoal px-8 py-3 rounded-full text-sm font-bold inline-block hover:bg-charcoal hover:text-white transition-all"
+            className="border border-charcoal px-8 py-3 rounded-full font-sans font-bold text-sm inline-block hover:bg-charcoal hover:text-white transition-all"
           >
             전체보기 View All →
           </a>

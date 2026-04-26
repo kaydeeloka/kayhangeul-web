@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { redirectToPayment } from "../lib/payment";
 
 const features = [
   "50+ Frasa Harian (Hangul + Audio)",
@@ -10,10 +11,6 @@ const features = [
 ];
 
 export default function Product() {
-  function redirectToPayment(amount: number, product: string) {
-    // TODO: connect to payment provider
-    console.log(`Redirecting to payment: ${product} — RM${amount / 100}`);
-  }
 
   return (
     <section id="product" className="px-8 md:px-20 py-32 lg:py-0 bg-white">
