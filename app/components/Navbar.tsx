@@ -20,9 +20,9 @@ export default function Navbar() {
 
       <div className="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.25em] font-bold font-sans">
         <Link href="/" className="hover:text-cherry-pink transition-colors">Home</Link>
+        <Link href="/about" className="hover:text-cherry-pink transition-colors">About</Link>
         <Link href="/library" className="hover:text-cherry-pink transition-colors">Library</Link>
         <Link href="/gallery" className="hover:text-cherry-pink transition-colors">Gallery</Link>
-        <Link href="/about" className="hover:text-cherry-pink transition-colors">About</Link>
         <Link href="/contact" className="hover:text-cherry-pink transition-colors">Contact</Link>
       </div>
 
