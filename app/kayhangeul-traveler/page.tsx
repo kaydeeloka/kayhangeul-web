@@ -26,10 +26,10 @@ function PaymentPanel() {
   return (
     <div className="space-y-3">
       <div className="space-y-1">
-        <p className="font-sans font-black text-3xl text-korean-red">RM 75</p>
+        <p className="font-sans font-black text-3xl text-korean-red">RM 9.99</p>
         <div className="flex items-center gap-2">
-          <span className="font-sans text-base text-text-light line-through">RM 120</span>
-          <span className="bg-korean-red text-white text-xs font-black px-2.5 py-0.5 rounded-full">38% OFF</span>
+          <span className="font-sans text-base text-text-light line-through">RM 15</span>
+          <span className="bg-korean-red text-white text-xs font-black px-2.5 py-0.5 rounded-full">33% OFF</span>
         </div>
       </div>
 

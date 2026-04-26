@@ -22,7 +22,7 @@ export default function Product() {
           {/* Left: image + discount badge */}
           <div className="relative lg:w-[40%] shrink-0 min-h-70">
             <div className="absolute -top-5 -left-5 bg-korean-red text-white px-5 py-3 rounded-2xl font-black text-base z-10 shadow-md">
-              38% OFF
+              33% OFF
             </div>
             <div className="relative rounded-2xl overflow-hidden h-full min-h-70">
               <Image
@@ -72,8 +72,8 @@ export default function Product() {
             {/* Price + CTA */}
             <div className="space-y-4">
               <div className="flex items-baseline gap-3">
-                <span className="font-sans text-3xl font-black text-korean-red">RM 75</span>
-                <span className="font-sans text-base opacity-30 line-through">RM 120</span>
+                <span className="font-sans text-3xl font-black text-korean-red">RM 9.99</span>
+                <span className="font-sans text-base opacity-30 line-through">RM 15</span>
               </div>
               <Link
                 href="/kayhangeul-traveler"
