@@ -27,25 +27,22 @@ export default function Footer() {
 
         {/* Brand */}
         <div className="space-y-5">
-          <h2 className="font-kr text-5xl font-bold text-white">케이한글</h2>
+          <h2 className="font-serif italic text-5xl font-light text-white">KayHangeul</h2>
           <div className="space-y-1 text-sm opacity-60 leading-relaxed">
-            <p className="font-kr">한국어와 한국 문화를 배울 수 있는 프리미엄 전자책 플랫폼</p>
+            <p>한국어와 한국 문화를 배울 수 있는 프리미엄 전자책 플랫폼</p>
             <p>Premium Korean language &amp; culture ebook platform</p>
           </div>
         </div>
 
         {/* Menu */}
         <div className="space-y-5">
-          <h3 className="font-kr text-deep-pink font-bold text-sm tracking-widest">
+          <h3 className="text-cherry-pink font-bold text-sm tracking-widest uppercase">
             메뉴 Menu
           </h3>
           <ul className="space-y-3">
             {menuLinks.map(({ label, href }) => (
               <li key={label}>
-                <a
-                  href={href}
-                  className="text-sm opacity-60 hover:opacity-100 hover:text-deep-pink transition-all"
-                >
+                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-cherry-pink transition-all">
                   {label}
                 </a>
               </li>
@@ -55,16 +52,13 @@ export default function Footer() {
 
         {/* Contact */}
         <div className="space-y-5">
-          <h3 className="font-kr text-deep-pink font-bold text-sm tracking-widest">
+          <h3 className="text-cherry-pink font-bold text-sm tracking-widest uppercase">
             문의 Contact
           </h3>
           <ul className="space-y-3">
             {contactLinks.map(({ label, href }) => (
               <li key={label}>
-                <a
-                  href={href}
-                  className="text-sm opacity-60 hover:opacity-100 hover:text-deep-pink transition-all"
-                >
+                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-cherry-pink transition-all">
                   {label}
                 </a>
               </li>
@@ -92,17 +86,7 @@ export default function Footer() {
         aria-label="Scroll to top"
         className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-charcoal text-white flex items-center justify-center transition-all duration-300 shadow-[0_0_0_4px_rgba(255,183,197,0.5)] hover:shadow-[0_0_0_6px_rgba(255,183,197,0.6)] hover:bg-korean-red z-50"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 19V5M5 12l7-7 7 7" />
         </svg>
       </button>

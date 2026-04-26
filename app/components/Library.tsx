@@ -51,10 +51,10 @@ export default function Library() {
         {/* Header */}
         <div className="flex items-start justify-between mb-12">
           <div>
-            <h2 className="font-display text-5xl md:text-6xl font-bold tracking-tight">
+            <h2 className="font-sans text-5xl md:text-6xl font-black tracking-tight">
               도서 라이브러리
             </h2>
-            <p className="text-cherry-pink font-kr font-semibold mt-2">Book Library</p>
+            <p className="font-serif italic text-cherry-pink text-lg mt-2">Book Library</p>
           </div>
           <a
             href="/library"

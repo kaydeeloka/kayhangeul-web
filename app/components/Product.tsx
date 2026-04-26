@@ -42,30 +42,30 @@ export default function Product() {
 
             {/* Header */}
             <div className="space-y-2">
-              <span className="inline-block border border-yellow-400 bg-yellow-50 text-yellow-700 text-[11px] font-bold px-3 py-1 rounded-full">
+              <span className="inline-block border border-yellow-400 bg-yellow-50 text-yellow-700 text-[11px] font-sans font-bold px-3 py-1 rounded-full">
                 Spring 2024 Edition
               </span>
-              <h2 className="text-4xl font-black tracking-tighter leading-tight">
+              <h2 className="font-sans font-black text-4xl tracking-tighter leading-tight">
                 The Ultimate Pack
               </h2>
-              <p className="text-sm opacity-50 font-medium">Korean Traveler&apos;s Complete Guide</p>
+              <p className="font-serif italic text-lg opacity-50">Korean Traveler&apos;s Complete Guide</p>
             </div>
 
             {/* Description */}
-            <p className="text-base leading-relaxed opacity-60">
+            <p className="font-sans text-base leading-relaxed opacity-60">
               Satu-satunya panduan digital yang anda perlukan. Mengandungi frasa
               harian Korea, fail audio sebutan lokal, dan tips travel eksklusif Seoul.
             </p>
 
             {/* Features */}
             <div>
-              <p className="text-sm font-bold mb-2.5 flex items-center gap-2">
+              <p className="font-sans text-sm font-bold mb-2.5 flex items-center gap-2">
                 <span>📚</span> Kandungan:
               </p>
               <ul className="space-y-1.5">
                 {features.map((feature) => (
-                  <li key={feature} className="text-sm opacity-70 flex items-start gap-2">
-                    <span className="text-deep-pink mt-0.5 shrink-0">•</span>
+                  <li key={feature} className="font-sans text-sm opacity-70 flex items-start gap-2">
+                    <span className="text-cherry-pink mt-0.5 shrink-0">•</span>
                     {feature}
                   </li>
                 ))}
@@ -75,12 +75,12 @@ export default function Product() {
             {/* Price + CTA */}
             <div className="space-y-4">
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-black text-korean-red">RM 75</span>
-                <span className="text-base opacity-30 line-through">RM 120</span>
+                <span className="font-sans text-3xl font-black text-korean-red">RM 75</span>
+                <span className="font-sans text-base opacity-30 line-through">RM 120</span>
               </div>
               <button
                 onClick={() => redirectToPayment(7500, "The Ultimate Pack")}
-                className="w-full bg-deep-pink text-white py-4 rounded-2xl font-bold text-sm tracking-widest transition-colors duration-300 hover:bg-korean-red cursor-pointer"
+                className="w-full bg-cherry-pink text-charcoal py-4 rounded-2xl font-sans font-bold text-sm tracking-widest transition-colors duration-300 hover:bg-korean-red hover:text-white cursor-pointer"
               >
                 지금 구매하기 Buy Now →
               </button>

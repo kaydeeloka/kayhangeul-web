@@ -2,7 +2,7 @@
 
 :root {
   --warm-linen: #F9F9F7;
-  --cherry-pink: #F8B1BA;
+  --cherry-pink: #FFB7C5;
   --light-pink: #FFF5F7;
   --korean-red: #CD313A;
   --korean-blue: #0047A0;
@@ -30,21 +30,20 @@
   --color-text-light: var(--text-light);
   --color-border: var(--border);
 
-  /* Aliases kept for existing component classes */
+  /* Aliases */
   --color-hanji-cream: var(--warm-linen);
   --color-deep-pink: var(--cherry-pink);
   --color-soft-pink: var(--light-pink);
 
-  /* Fonts */
+  /* Fonts — two only */
   --font-sans: var(--font-inter);
   --font-serif: var(--font-cormorant);
-  --font-kr: var(--font-noto-kr);
-  --font-display: var(--font-nanum);
 }
 
 body {
   background-color: var(--warm-linen);
   color: var(--text-dark);
+  font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
 }
 
