@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter, Cormorant_Garamond, Noto_Sans_KR } from "next/font/google";
+import { Inter, Cormorant_Garamond, Noto_Sans_KR, Black_Han_Sans } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,6 +23,12 @@ const notoSansKR = Noto_Sans_KR({
   weight: ["300", "400", "700"],
 });
 
+const blackHanSans = Black_Han_Sans({
+  variable: "--font-black-han",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "KayHangeul | Edisi Traveler Korea",
   description: "Kuasai frasa harian Korea dengan panduan audio yang direka khusus untuk pengembara Malaysia.",
@@ -36,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="ms"
-      className={`${inter.variable} ${cormorant.variable} ${notoSansKR.variable} h-full`}
+      className={`${inter.variable} ${cormorant.variable} ${notoSansKR.variable} ${blackHanSans.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
         {children}

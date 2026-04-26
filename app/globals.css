@@ -21,6 +21,7 @@
   --font-sans: var(--font-inter);
   --font-serif: var(--font-cormorant);
   --font-kr: var(--font-noto-kr);
+  --font-display: var(--font-black-han);
 }
 
 body {

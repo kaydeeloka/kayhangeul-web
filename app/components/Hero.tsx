@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section id="hero" className="relative px-8 md:px-20 pt-48 pb-20 overflow-hidden text-center">
+    <section id="hero" className="relative px-8 md:px-20 pt-28 pb-10 overflow-hidden text-center">
       <div
         className="absolute -top-20 -left-20 w-[500px] h-[500px] -z-10 blur-[80px] opacity-50 pointer-events-none"
         style={{ background: "radial-gradient(circle, #FFDDE2 0%, rgba(255,255,255,0) 70%)" }}
@@ -11,15 +11,18 @@ export default function Hero() {
           안녕하세요 — SELAMAT DATANG
         </span>
 
-        <h1 className="text-6xl md:text-[110px] font-black tracking-tighter mb-10 uppercase leading-[0.85]">
-          Bercakap Macam Lokal <br />
-          <span className="font-serif italic font-light text-korean-blue lowercase">
+        <h1 className="font-display tracking-tighter mb-6 uppercase leading-[0.9]">
+          <span className="text-6xl md:text-[110px]">
+            Bercakap Macam Lokal
+          </span>
+          <br />
+          <span className="font-kr font-light text-4xl md:text-6xl text-korean-blue normal-case">
             dalam 5 Minit.
           </span>
         </h1>
 
-        <div className="max-w-2xl mx-auto space-y-10">
-          <p className="text-xl md:text-2xl font-medium leading-relaxed opacity-70">
+        <div className="max-w-2xl mx-auto space-y-6">
+          <p className="font-kr text-lg md:text-xl font-medium leading-relaxed opacity-70">
             Kuasai frasa harian Korea dengan{" "}
             <span className="text-deep-pink font-bold">panduan audio</span>{" "}
             yang direka khusus untuk pengembara Malaysia.
