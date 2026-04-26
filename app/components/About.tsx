@@ -22,7 +22,7 @@ export default function About() {
             Founder Story
           </span>
           <h3 className="font-serif text-5xl md:text-7xl italic leading-none">
-            Annyeong, <br />I&apos;m Kay.
+            Annyeong, <br />I&apos;m Kaydee.
           </h3>
           <p className="text-xl leading-relaxed opacity-70 font-medium">
             Tinggal di Seoul selama 5 tahun mengajar saya satu perkara: Bahasa
