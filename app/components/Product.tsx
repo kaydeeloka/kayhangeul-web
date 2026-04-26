@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { redirectToPayment } from "../lib/payment";
+import Link from "next/link";
 
 const features = [
   "50+ Frasa Harian (Hangul + Audio)",
@@ -75,12 +75,12 @@ export default function Product() {
                 <span className="font-sans text-3xl font-black text-korean-red">RM 75</span>
                 <span className="font-sans text-base opacity-30 line-through">RM 120</span>
               </div>
-              <button
-                onClick={() => redirectToPayment(7500, "The Ultimate Pack")}
-                className="w-full bg-cherry-pink text-charcoal py-4 rounded-2xl font-sans font-bold text-sm tracking-widest transition-colors duration-300 hover:bg-korean-red hover:text-white cursor-pointer"
+              <Link
+                href="/kayhangeul-traveler"
+                className="w-full bg-cherry-pink text-charcoal py-4 rounded-2xl font-sans font-bold text-sm tracking-widest transition-colors duration-300 hover:bg-korean-red hover:text-white text-center block"
               >
                 지금 구매하기 Buy Now →
-              </button>
+              </Link>
             </div>
 
           </div>
