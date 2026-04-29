@@ -1,7 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Link from "next/link";
 import Image from "next/image";
+import PaymentPanel from "@/app/kayhangeul-traveler/PaymentPanel";
 
 const features = [
   "50+ Frasa Harian Korea untuk situasi sebenar",
@@ -20,84 +20,20 @@ const highlights = [
   "Sesuai untuk pemula — tiada asas diperlukan",
 ];
 
-const TOYYIBPAY_URL = "https://toyyibpay.com/KayHangeul-Traveler-Diskaun";
-const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
-
-function PaymentPanel() {
-  return (
-    <div className="space-y-3">
-      <div className="flex justify-end">
-        <p className="font-sans text-xs font-semibold text-text-light bg-light-pink px-3 py-1 rounded-full">
-          4.9/5 (328 reviews)
-        </p>
-      </div>
-
-      <div className="space-y-1">
-        <p className="font-sans font-black text-3xl text-korean-red">RM 9.99</p>
-        <div className="flex items-center gap-2">
-          <span className="font-sans text-base text-text-light line-through">RM 15</span>
-          <span className="bg-korean-red text-white text-xs font-black px-2.5 py-0.5 rounded-full">33% OFF</span>
-        </div>
-      </div>
-
-      <p className="font-sans text-xs font-bold uppercase tracking-widest text-text-light pt-1">Pilih kaedah pembayaran:</p>
-
-      <Link
-        href={TOYYIBPAY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-between w-full bg-korean-blue text-white px-6 py-4 rounded-2xl font-sans font-bold text-sm tracking-wide transition-opacity hover:opacity-90"
-      >
-        <span>🏦 Pay with FPX</span>
-        <span className="text-xs font-normal opacity-70">Online Banking Malaysia</span>
-      </Link>
-
-      <Link
-        href={PAYPAL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-between w-full bg-[#003087] text-white px-6 py-4 rounded-2xl font-sans font-bold text-sm tracking-wide transition-opacity hover:opacity-90"
-      >
-        <span>🅿 Pay with PayPal</span>
-        <span className="text-xs font-normal opacity-70">PayPal account</span>
-      </Link>
-
-      <Link
-        href={PAYPAL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-between w-full bg-black text-white px-6 py-4 rounded-2xl font-sans font-bold text-sm tracking-wide transition-opacity hover:opacity-80"
-      >
-        <span> Pay with Apple Pay</span>
-        <span className="text-xs font-normal opacity-70">Apple Wallet</span>
-      </Link>
-
-      <Link
-        href={PAYPAL_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center justify-between w-full bg-charcoal text-white px-6 py-4 rounded-2xl font-sans font-bold text-sm tracking-wide transition-opacity hover:opacity-90"
-      >
-        <span>💳 Pay with Card</span>
-        <span className="text-xs font-normal opacity-70">Visa / Mastercard</span>
-      </Link>
-
-      <p className="font-sans text-xs text-text-light text-center pt-1">
-        Semua transaksi diproses dengan selamat melalui ToyyibPay & PayPal🔒
-      </p>
-
-      <div className="pt-2 flex items-center justify-between gap-3">
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-xl border border-cherry-pink/40 px-4 py-2 font-sans text-sm font-bold text-cherry-pink transition-colors hover:bg-light-pink"
-        >
-          Add Review
-        </button>
-        <p className="font-sans text-xs font-semibold text-text-light text-right">1,284 people bought this</p>
-      </div>
-    </div>
-  );
-}
+const reviews = [
+  {
+    name: "Ain, KL",
+    text: "Mudah sangat guna masa di Seoul. Frasa memang kena dengan situasi sebenar.",
+  },
+  {
+    name: "Faris, Johor",
+    text: "Saya jenis cepat lupa, tapi format dia ringkas dan senang rujuk masa travel.",
+  },
+  {
+    name: "Siti, Penang",
+    text: "Audio dia membantu sebutan. Orang Korea terus faham apa saya nak cakap.",
+  },
+];
 
 export default function KayHangeulTravelerPage() {
   return (
@@ -123,7 +59,13 @@ export default function KayHangeulTravelerPage() {
                 <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                 <div className="absolute bottom-5 left-5 text-white">
                   <p className="font-sans font-black text-2xl uppercase tracking-tight">50 Frasa Korea Edisi Traveler</p>
-                  <p className="font-serif italic text-lg">KayHangeul Traveler Edition</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-serif italic text-lg">KayHangeul Traveler Edition</p>
+                    <p className="inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 font-sans text-xs font-semibold text-white">
+                      <span>4.9/5</span>
+                      <span aria-hidden="true">⭐</span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -174,6 +116,19 @@ export default function KayHangeulTravelerPage() {
                     <p className="font-sans text-sm text-text-mid">{h}</p>
                   </div>
                 ))}
+              </div>
+
+              {/* Reviews */}
+              <div className="space-y-4">
+                <p className="font-sans font-bold text-text-dark text-sm">💬 Review pengguna:</p>
+                <div className="grid gap-3">
+                  {reviews.map((review) => (
+                    <div key={review.name} className="rounded-2xl border border-cherry-pink/20 bg-white p-4 shadow-sm">
+                      <p className="font-sans text-sm text-text-mid">"{review.text}"</p>
+                      <p className="font-sans text-xs font-bold text-korean-red mt-2">{review.name}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Payment buttons — mobile only (below content) */}
