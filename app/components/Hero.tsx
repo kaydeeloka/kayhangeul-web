@@ -20,10 +20,8 @@ export default function Hero() {
         <div className="flex justify-center mb-6">
           <div className="relative inline-flex flex-col items-start">
             <div className="bg-cherry-pink text-charcoal px-5 py-3 rounded-2xl rounded-tl-none font-sans font-bold text-sm md:text-base shadow-md">
-              💬 &ldquo;Sembang macam lokal!&rdquo;
+              💬 &ldquo;Sembang macam lokal dalam 5 min sahaja
             </div>
-            {/* Bubble tail */}
-            <div className="w-3 h-3 bg-cherry-pink clip-path-[polygon(0_0,100%_0,100%_100%)] self-start" style={{ clipPath: "polygon(0 0, 100% 0, 0 100%)" }} />
           </div>
         </div>
 
