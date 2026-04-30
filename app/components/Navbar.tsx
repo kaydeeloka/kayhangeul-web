@@ -28,7 +28,7 @@ export default function Navbar() {
         />
       </Link>
 
-      <div className="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.25em] font-bold font-sans">
+      <div className="hidden lg:flex space-x-8 text-sm uppercase tracking-[0.25em] font-bold font-sans">
         {navLinks.map(({ href, label }) => (
           <Link
             key={href}

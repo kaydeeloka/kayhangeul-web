@@ -53,13 +53,13 @@ export default function ContactPage() {
               We&apos;d love to hear from you.
             </p>
           </div>
-          <div className="flex-1 w-full relative aspect-4/3 rounded-3xl overflow-hidden shadow-lg">
+          <div className="flex-1 flex justify-end">
             <Image
-              src="/img/contact-us.png"
+              src="/img/contact.jpg"
               alt="Contact KayHangeul"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              width={600}
+              height={500}
+              className="max-h-[60vh] w-auto rounded-3xl shadow-2xl"
               priority
             />
           </div>

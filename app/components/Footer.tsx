@@ -29,7 +29,7 @@ export default function Footer() {
 
         {/* Brand */}
         <div className="space-y-5">
-          <Image src="/logo-white.png" alt="KayHangeul" width={180} height={50} className="h-11 w-auto object-contain" />
+          <Image src="/logo-white.png" alt="KayHangeul" width={400} height={110} className="w-3/4 h-auto object-contain object-left" />
           <div className="space-y-1 text-sm opacity-60 leading-relaxed">
             <p>한국어와 한국 문화를 배울 수 있는 프리미엄 전자책 플랫폼</p>
             <p>Premium Korean language &amp; culture ebook platform</p>
@@ -66,6 +66,21 @@ export default function Footer() {
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto border-t border-white/10" />
+
+      {/* Legal entity */}
+      <div className="max-w-7xl mx-auto pt-8 pb-6">
+        <p className="text-xs font-bold uppercase tracking-widest opacity-40 mb-3">Legal Entity</p>
+        <div className="flex items-center gap-2 text-xs opacity-25">
+          <span>NexaNetra Ventures</span>
+          <span className="opacity-50">·</span>
+          <span>Reg. No. CA0408300-V</span>
+          <span className="opacity-50">·</span>
+          <span>DUNS 47-325-1117</span>
         </div>
       </div>
 
