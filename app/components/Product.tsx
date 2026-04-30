@@ -47,7 +47,7 @@ export default function Product() {
               <h2 className="font-sans font-black text-4xl tracking-tighter leading-tight">
                 KayHangeul : 50 Frasa Korea Edisi Traveler
               </h2>
-              <p className="font-serif italic text-lg text-cherry-pink">Korean Traveler&apos;s Complete Guide</p>
+              <p className="font-serif italic text-lg text-crimson-pink">Korean Traveler&apos;s Complete Guide</p>
             </div>
 
             {/* Description */}
@@ -64,7 +64,7 @@ export default function Product() {
               <ul className="space-y-1.5">
                 {features.map((feature) => (
                   <li key={feature} className="font-sans text-sm opacity-70 flex items-start gap-2">
-                    <span className="text-cherry-pink mt-0.5 shrink-0">•</span>
+                    <span className="text-crimson-pink mt-0.5 shrink-0">•</span>
                     {feature}
                   </li>
                 ))}

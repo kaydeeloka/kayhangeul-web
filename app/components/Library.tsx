@@ -54,7 +54,7 @@ export default function Library() {
             <h2 className="font-sans font-black text-5xl md:text-6xl tracking-tight">
               도서 라이브러리
             </h2>
-            <p className="font-serif italic text-cherry-pink text-xl mt-2">Book Library</p>
+            <p className="font-serif italic text-crimson-pink text-xl mt-2">Book Library</p>
           </div>
           <a
             href="/library"

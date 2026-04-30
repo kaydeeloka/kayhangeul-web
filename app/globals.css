@@ -3,6 +3,7 @@
 :root {
   --warm-linen: #F9F9F7;
   --cherry-pink: #FFB7C5;
+  --crimson-pink: #ed155d;
   --light-pink: #FFF5F7;
   --korean-red: #CD313A;
   --korean-blue: #0047A0;
@@ -19,6 +20,7 @@
   /* Colors */
   --color-warm-linen: var(--warm-linen);
   --color-cherry-pink: var(--cherry-pink);
+  --color-crimson-pink: var(--crimson-pink);
   --color-light-pink: var(--light-pink);
   --color-korean-red: var(--korean-red);
   --color-korean-blue: var(--korean-blue);
@@ -32,7 +34,7 @@
 
   /* Aliases */
   --color-hanji-cream: var(--warm-linen);
-  --color-deep-pink: var(--cherry-pink);
+  --color-deep-pink: var(--crimson-pink);
   --color-soft-pink: var(--light-pink);
 
   /* Fonts — two only */

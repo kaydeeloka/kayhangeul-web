@@ -38,13 +38,13 @@ export default function Footer() {
 
         {/* Menu */}
         <div className="space-y-5">
-          <h3 className="text-cherry-pink font-bold text-sm tracking-widest uppercase">
+          <h3 className="text-crimson-pink font-bold text-sm tracking-widest uppercase">
             메뉴 Menu
           </h3>
           <ul className="space-y-3">
             {menuLinks.map(({ label, href }) => (
               <li key={label}>
-                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-cherry-pink transition-all">
+                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-crimson-pink transition-all">
                   {label}
                 </a>
               </li>
@@ -54,13 +54,13 @@ export default function Footer() {
 
         {/* Contact */}
         <div className="space-y-5">
-          <h3 className="text-cherry-pink font-bold text-sm tracking-widest uppercase">
+          <h3 className="text-crimson-pink font-bold text-sm tracking-widest uppercase">
             문의 Contact
           </h3>
           <ul className="space-y-3">
             {contactLinks.map(({ label, href }) => (
               <li key={label}>
-                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-cherry-pink transition-all">
+                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-crimson-pink transition-all">
                   {label}
                 </a>
               </li>

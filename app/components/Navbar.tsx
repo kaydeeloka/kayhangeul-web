@@ -33,7 +33,7 @@ export default function Navbar() {
           <Link
             key={href}
             href={href}
-            className={`transition-colors hover:text-cherry-pink ${pathname === href ? "text-cherry-pink" : ""}`}
+            className={`transition-colors hover:text-crimson-pink ${pathname === href ? "text-crimson-pink" : ""}`}
           >
             {label}
           </Link>

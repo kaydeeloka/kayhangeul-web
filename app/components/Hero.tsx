@@ -7,7 +7,7 @@ export default function Hero() {
       />
 
       <div className="max-w-5xl mx-auto relative z-10">
-        <span className="font-sans text-cherry-pink font-bold tracking-widest text-sm mb-6 block uppercase">
+        <span className="font-sans text-crimson-pink font-bold tracking-widest text-sm mb-6 block uppercase">
           안녕하세요 — SELAMAT DATANG
         </span>
 
@@ -20,7 +20,7 @@ export default function Hero() {
         <div className="flex justify-center mb-6">
           <div className="relative inline-flex flex-col items-start">
             <div className="bg-cherry-pink text-charcoal px-5 py-3 rounded-2xl rounded-tl-none font-sans font-bold text-sm md:text-base shadow-md">
-              💬 &ldquo;Sembang macam lokal dalam 5 min sahaja
+              &ldquo;Sembang macam lokal dalam 5 min sahaja&ldquo;
             </div>
           </div>
         </div>

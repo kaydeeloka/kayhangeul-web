@@ -6,23 +6,22 @@ export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-warm-linen pt-24">
-
+      <main className="min-h-screen pt-32 px-8 md:px-20 pb-20 bg-warm-linen">
         {/* Hero */}
-        <section className="px-8 md:px-20 pt-12 pb-10 md:pt-14 md:pb-12">
-          <span className="font-sans text-cherry-pink font-bold tracking-widest text-xs uppercase block mb-4">
+        <div className="max-w-7xl mx-auto">
+          <span className="font-kr text-deep-pink font-bold tracking-widest text-sm uppercase block mb-4">
             안녕하세요 — Our Story
           </span>
-          <h1 className="font-sans font-black text-4xl md:text-6xl uppercase tracking-tighter leading-[0.95] mb-4">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9] mb-4">
             About Us
           </h1>
           <p className="font-serif italic text-xl md:text-2xl text-korean-blue max-w-2xl">
             A love letter to the Korean language.
           </p>
-        </section>
+        </div>
 
-        {/* Founder */}
-        <section className="px-8 md:px-20 py-20 bg-light-pink">
+        {/* Founder — negative margin to break out of main's px padding for full-width bg */}
+        <section className="-mx-8 md:-mx-20 px-8 md:px-20 py-20 mt-20 bg-light-pink">
           <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
             <div className="w-full md:w-5/12 shrink-0">
               <div className="relative aspect-3/4 rounded-[40px] overflow-hidden -rotate-2 hover:rotate-0 transition-all duration-700 shadow-2xl border-10 border-white">
@@ -37,7 +36,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="w-full md:w-7/12 space-y-6">
-              <span className="font-sans text-cherry-pink font-bold text-xs uppercase tracking-[0.4em]">
+              <span className="font-sans text-crimson-pink font-bold text-xs uppercase tracking-[0.4em]">
                 Founder
               </span>
               <h2 className="font-serif italic text-5xl md:text-6xl leading-none">
@@ -68,9 +67,9 @@ export default function AboutPage() {
         </section>
 
         {/* Mission */}
-        <section className="px-8 md:px-20 py-20">
+        <section className="-mx-8 md:-mx-20 px-8 md:px-20 py-20">
           <div className="max-w-4xl mx-auto text-center space-y-6">
-            <span className="font-sans text-cherry-pink font-bold text-xs uppercase tracking-[0.4em] block">
+            <span className="font-sans text-crimson-pink font-bold text-xs uppercase tracking-[0.4em] block">
               Our Mission
             </span>
             <h2 className="font-sans font-black text-4xl md:text-5xl tracking-tighter">

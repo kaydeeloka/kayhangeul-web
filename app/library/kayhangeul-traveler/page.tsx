@@ -95,7 +95,7 @@ export default async function KayHangeulTravelerPage() {
                 <h1 className="font-sans font-black text-4xl md:text-5xl tracking-tighter leading-tight">
                   KayHangeul Traveler Pack
                 </h1>
-                <p className="font-serif italic text-xl text-cherry-pink">
+                <p className="font-serif italic text-xl text-crimson-pink">
                   Bercakap macam lokal, dalam 5 minit.
                 </p>
               </div>
@@ -118,7 +118,7 @@ export default async function KayHangeulTravelerPage() {
                 <ul className="space-y-2">
                   {features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5 font-sans text-sm text-text-mid">
-                      <span className="text-cherry-pink font-bold mt-0.5 shrink-0">✓</span>
+                      <span className="text-crimson-pink font-bold mt-0.5 shrink-0">✓</span>
                       {f}
                     </li>
                   ))}
