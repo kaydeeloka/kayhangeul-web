@@ -11,12 +11,19 @@ export default function PaymentPanel() {
   const [selectedRating, setSelectedRating]       = useState(0);
   const [submitting, setSubmitting]               = useState(false);
   const [submitError, setSubmitError]             = useState("");
+  const [submitted, setSubmitted]                 = useState(false);
   const [purchaseCount, setPurchaseCount]         = useState<number | null>(null);
+  const [reviewStats, setReviewStats]             = useState<{ count: number; average: number } | null>(null);
 
   useEffect(() => {
     fetch("/api/purchase-count")
       .then((r) => r.json())
       .then((d) => setPurchaseCount(d.count ?? null))
+      .catch(() => {});
+
+    fetch("/api/review-stats")
+      .then((r) => r.json())
+      .then((d) => setReviewStats({ count: d.count, average: d.average }))
       .catch(() => {});
   }, []);
 
@@ -48,7 +55,7 @@ export default function PaymentPanel() {
 
       form.reset();
       setSelectedRating(0);
-      setIsReviewModalOpen(false);
+      setSubmitted(true);
     } catch {
       setSubmitError("Gagal hantar review. Cuba lagi.");
     } finally {
@@ -59,6 +66,7 @@ export default function PaymentPanel() {
   function openModal() {
     setSelectedRating(0);
     setSubmitError("");
+    setSubmitted(false);
     setIsReviewModalOpen(true);
   }
 
@@ -68,7 +76,11 @@ export default function PaymentPanel() {
         <div className="flex justify-end">
           <p className="inline-flex items-center gap-1.5 rounded-full bg-korean-red px-3 py-1 font-sans text-xs font-semibold text-white shadow-sm">
             <span aria-hidden="true">⭐</span>
-            <span>4.9/5 (328 reviews)</span>
+            <span>
+              {reviewStats && reviewStats.count > 0
+                ? `${reviewStats.average}/5 (${reviewStats.count} reviews)`
+                : "4.9/5 (328 reviews)"}
+            </span>
           </p>
         </div>
 
@@ -149,7 +161,7 @@ export default function PaymentPanel() {
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
                 <h3 className="font-sans text-xl font-black text-text-dark">Tambah Review</h3>
-                <p className="mt-1 font-sans text-sm text-text-light">Kongsi pengalaman anda guna KayHangeul Traveler Pack.</p>
+                {!submitted && <p className="mt-1 font-sans text-sm text-text-light">Kongsi pengalaman anda guna KayHangeul Traveler Pack.</p>}
               </div>
               <button
                 type="button"
@@ -161,6 +173,22 @@ export default function PaymentPanel() {
               </button>
             </div>
 
+            {submitted ? (
+              <div className="flex flex-col items-center gap-4 py-6 text-center">
+                <span className="text-5xl">🎉</span>
+                <div>
+                  <p className="font-sans text-lg font-black text-text-dark">Terima kasih atas review anda!</p>
+                  <p className="mt-1 font-sans text-sm text-text-light">Review anda sedang disemak dan akan dipaparkan tidak lama lagi.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsReviewModalOpen(false)}
+                  className="cursor-pointer rounded-xl bg-korean-red px-6 py-2 font-sans text-sm font-bold text-white transition-opacity hover:opacity-90"
+                >
+                  Tutup
+                </button>
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} className="space-y-3">
               <input
                 required
@@ -217,6 +245,7 @@ export default function PaymentPanel() {
                 </button>
               </div>
             </form>
+            )}
           </div>
         </div>
       )}
