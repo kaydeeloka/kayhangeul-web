@@ -40,7 +40,7 @@ export default function PaymentPanel() {
           href={TOYYIBPAY_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
+          className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
         >
           <span>🏦 Pay with FPX</span>
           <span className="text-xs font-normal opacity-70">Online Banking Malaysia</span>
@@ -50,7 +50,7 @@ export default function PaymentPanel() {
           href={PAYPAL_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-between rounded-2xl bg-[#003087] px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
+          className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-[#003087] px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
         >
           <span>🅿 Pay with PayPal</span>
           <span className="text-xs font-normal opacity-70">PayPal account</span>
@@ -60,7 +60,7 @@ export default function PaymentPanel() {
           href={PAYPAL_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-between rounded-2xl bg-black px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-80"
+          className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-black px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-80"
         >
           <span> Pay with Apple Pay</span>
           <span className="text-xs font-normal opacity-70">Apple Wallet</span>
@@ -70,7 +70,7 @@ export default function PaymentPanel() {
           href={PAYPAL_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex w-full items-center justify-between rounded-2xl bg-charcoal px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
+          className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-charcoal px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
         >
           <span>💳 Pay with Card</span>
           <span className="text-xs font-normal opacity-70">Visa / Mastercard</span>
@@ -87,7 +87,7 @@ export default function PaymentPanel() {
               setSelectedRating(0);
               setIsReviewModalOpen(true);
             }}
-            className="inline-flex items-center justify-center rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
+            className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             Add Review
           </button>
@@ -109,7 +109,7 @@ export default function PaymentPanel() {
               <button
                 type="button"
                 onClick={() => setIsReviewModalOpen(false)}
-                className="rounded-md px-2 py-1 font-sans text-sm font-bold text-text-light transition-colors hover:bg-light-pink"
+                className="cursor-pointer rounded-md px-2 py-1 font-sans text-sm font-bold text-text-light transition-colors hover:bg-light-pink"
                 aria-label="Close review modal"
               >
                 ✕
@@ -140,7 +140,7 @@ export default function PaymentPanel() {
                       type="button"
                       onClick={() => setSelectedRating(star)}
                       aria-label={`${star} star`}
-                      className="text-2xl leading-none transition-transform hover:scale-110"
+                      className="cursor-pointer text-2xl leading-none transition-transform hover:scale-110"
                     >
                       <span className={selectedRating >= star ? "text-yellow-500" : "text-gray-300"}>★</span>
                     </button>
@@ -163,13 +163,13 @@ export default function PaymentPanel() {
                 <button
                   type="button"
                   onClick={() => setIsReviewModalOpen(false)}
-                  className="rounded-xl border border-cherry-pink/30 px-4 py-2 font-sans text-sm font-bold text-text-light transition-colors hover:bg-light-pink"
+                  className="cursor-pointer rounded-xl border border-cherry-pink/30 px-4 py-2 font-sans text-sm font-bold text-text-light transition-colors hover:bg-light-pink"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white transition-opacity hover:opacity-90"
+                  className="cursor-pointer rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white transition-opacity hover:opacity-90"
                 >
                   Submit Review
                 </button>

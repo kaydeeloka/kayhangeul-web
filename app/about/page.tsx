@@ -9,14 +9,14 @@ export default function AboutPage() {
       <main className="bg-warm-linen pt-24">
 
         {/* Hero */}
-        <section className="px-8 md:px-20 py-20 text-center">
+        <section className="px-8 md:px-20 pt-12 pb-10 md:pt-14 md:pb-12">
           <span className="font-sans text-cherry-pink font-bold tracking-widest text-xs uppercase block mb-4">
             안녕하세요 — Our Story
           </span>
-          <h1 className="font-sans font-black text-6xl md:text-8xl uppercase tracking-tighter leading-[0.9] mb-6">
+          <h1 className="font-sans font-black text-4xl md:text-6xl uppercase tracking-tighter leading-[0.95] mb-4">
             About Us
           </h1>
-          <p className="font-serif italic text-2xl md:text-3xl text-korean-blue max-w-2xl mx-auto">
+          <p className="font-serif italic text-xl md:text-2xl text-korean-blue max-w-2xl">
             A love letter to the Korean language.
           </p>
         </section>

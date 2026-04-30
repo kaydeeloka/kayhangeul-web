@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import About from "../components/About";
 import Image from "next/image";
 import PaymentPanel from "@/app/kayhangeul-traveler/PaymentPanel";
 
@@ -147,6 +148,7 @@ export default function KayHangeulTravelerPage() {
 
           </div>
         </div>
+        <About />
       </main>
       <Footer />
     </>
