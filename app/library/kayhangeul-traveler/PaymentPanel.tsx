@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 const TOYYIBPAY_URL = "https://toyyibpay.com/KayHangeul-Traveler-Diskaun";
@@ -8,13 +8,59 @@ const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 export default function PaymentPanel() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [selectedRating, setSelectedRating] = useState(0);
+  const [selectedRating, setSelectedRating]       = useState(0);
+  const [submitting, setSubmitting]               = useState(false);
+  const [submitError, setSubmitError]             = useState("");
+  const [purchaseCount, setPurchaseCount]         = useState<number | null>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    fetch("/api/purchase-count")
+      .then((r) => r.json())
+      .then((d) => setPurchaseCount(d.count ?? null))
+      .catch(() => {});
+  }, []);
+
+  async function handleSubmit(event: { preventDefault(): void; currentTarget: HTMLFormElement }) {
     event.preventDefault();
+    if (selectedRating === 0) {
+      setSubmitError("Pilih rating terlebih dahulu.");
+      return;
+    }
+
+    const form = event.currentTarget;
+    const data = {
+      name:   (form.elements.namedItem("name")   as HTMLInputElement).value,
+      rating: selectedRating,
+      review: (form.elements.namedItem("review") as HTMLTextAreaElement).value,
+    };
+
+    setSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const res = await fetch("/api/reviews", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error();
+
+      form.reset();
+      setSelectedRating(0);
+      setIsReviewModalOpen(false);
+    } catch {
+      setSubmitError("Gagal hantar review. Cuba lagi.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function openModal() {
     setSelectedRating(0);
-    setIsReviewModalOpen(false);
-  };
+    setSubmitError("");
+    setIsReviewModalOpen(true);
+  }
 
   return (
     <>
@@ -83,15 +129,14 @@ export default function PaymentPanel() {
         <div className="flex items-center justify-between gap-3 pt-2">
           <button
             type="button"
-            onClick={() => {
-              setSelectedRating(0);
-              setIsReviewModalOpen(true);
-            }}
+            onClick={openModal}
             className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white shadow-sm transition-opacity hover:opacity-90"
           >
             Add Review
           </button>
-          <p className="text-right font-sans text-xs font-semibold text-text-light">1,284 people bought this</p>
+          <p className="text-right font-sans text-xs font-semibold text-text-light">
+            {purchaseCount !== null ? `${purchaseCount.toLocaleString()} people bought this` : "people bought this"}
+          </p>
         </div>
       </div>
 
@@ -124,13 +169,6 @@ export default function PaymentPanel() {
                 placeholder="Nama"
                 className="w-full rounded-xl border border-cherry-pink/30 px-3 py-2 font-sans text-sm outline-none focus:border-korean-red"
               />
-              <input
-                required
-                name="from"
-                type="text"
-                placeholder="Awak dari mana? (ex: Malaysia)"
-                className="w-full rounded-xl border border-cherry-pink/30 px-3 py-2 font-sans text-sm outline-none focus:border-korean-red"
-              />
               <div className="rounded-xl border border-cherry-pink/30 px-3 py-2">
                 <p className="mb-2 font-sans text-xs font-semibold text-text-light">Rating</p>
                 <div className="flex items-center gap-1">
@@ -149,7 +187,6 @@ export default function PaymentPanel() {
                     {selectedRating > 0 ? `${selectedRating}/5` : "Pilih bintang"}
                   </span>
                 </div>
-                <input name="rating" type="hidden" value={selectedRating} required />
               </div>
               <textarea
                 required
@@ -158,6 +195,10 @@ export default function PaymentPanel() {
                 placeholder="Tulis review anda..."
                 className="w-full rounded-xl border border-cherry-pink/30 px-3 py-2 font-sans text-sm outline-none focus:border-korean-red"
               />
+
+              {submitError && (
+                <p className="font-sans text-xs text-red-500">{submitError}</p>
+              )}
 
               <div className="flex justify-end gap-2 pt-1">
                 <button
@@ -169,9 +210,10 @@ export default function PaymentPanel() {
                 </button>
                 <button
                   type="submit"
-                  className="cursor-pointer rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white transition-opacity hover:opacity-90"
+                  disabled={submitting}
+                  className="cursor-pointer rounded-xl bg-korean-red px-4 py-2 font-sans text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
                 >
-                  Submit Review
+                  {submitting ? "Menghantar..." : "Submit Review"}
                 </button>
               </div>
             </form>

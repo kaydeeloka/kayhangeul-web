@@ -41,9 +41,9 @@ export default function Navbar() {
       </div>
 
       <Link
-        href="/kayhangeul-traveler"
+        href="/library/kayhangeul-traveler"
         className={`px-7 py-2.5 rounded-full text-xs font-sans font-bold uppercase tracking-widest transition-colors ${
-          pathname === "/kayhangeul-traveler"
+          pathname === "/library/kayhangeul-traveler"
             ? "bg-cherry-pink text-charcoal"
             : "bg-charcoal text-white hover:bg-cherry-pink hover:text-charcoal"
         }`}

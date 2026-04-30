@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     billPayorInfo:           "1",
     billAmount:              String(amount),
     billReturnUrl:           `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success`,
-    billCallbackUrl:         `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/callback`,
+    billCallbackUrl:         `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhooks/toyyibpay`,
     billExternalReferenceNo: `ORDER-${Date.now()}`,
     billTo:                  "",
     billEmail:               "",

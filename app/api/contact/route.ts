@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   const res = await fetch(scriptUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, subject, message }),
+    body: JSON.stringify({ type: "contact", name, email, subject, message }),
   });
 
   if (!res.ok) {
