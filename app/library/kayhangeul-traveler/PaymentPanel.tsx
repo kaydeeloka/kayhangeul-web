@@ -6,24 +6,21 @@ import Link from "next/link";
 const TOYYIBPAY_URL = "https://toyyibpay.com/KayHangeul-Traveler-Diskaun";
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
-export default function PaymentPanel() {
+type ReviewStats = { count: number; average: number };
+
+export default function PaymentPanel({ initialReviewStats }: { initialReviewStats?: ReviewStats | null }) {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedRating, setSelectedRating]       = useState(0);
   const [submitting, setSubmitting]               = useState(false);
   const [submitError, setSubmitError]             = useState("");
   const [submitted, setSubmitted]                 = useState(false);
   const [purchaseCount, setPurchaseCount]         = useState<number | null>(null);
-  const [reviewStats, setReviewStats]             = useState<{ count: number; average: number } | null>(null);
+  const [reviewStats]                             = useState<ReviewStats | null>(initialReviewStats ?? null);
 
   useEffect(() => {
     fetch("/api/purchase-count")
       .then((r) => r.json())
       .then((d) => setPurchaseCount(d.count ?? null))
-      .catch(() => {});
-
-    fetch("/api/review-stats")
-      .then((r) => r.json())
-      .then((d) => setReviewStats({ count: d.count, average: d.average }))
       .catch(() => {});
   }, []);
 
@@ -178,7 +175,7 @@ export default function PaymentPanel() {
                 <span className="text-5xl">🎉</span>
                 <div>
                   <p className="font-sans text-lg font-black text-text-dark">Terima kasih atas review anda!</p>
-                  <p className="mt-1 font-sans text-sm text-text-light">Review anda sedang disemak dan akan dipaparkan tidak lama lagi.</p>
+                  <p className="mt-1 font-sans text-sm text-text-light">Your satisfaction is our top priority.</p>
                 </div>
                 <button
                   type="button"

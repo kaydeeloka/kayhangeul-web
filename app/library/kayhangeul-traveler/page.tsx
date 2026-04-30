@@ -1,6 +1,5 @@
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import About from "../../components/About";
 import Image from "next/image";
 import PaymentPanel from "@/app/library/kayhangeul-traveler/PaymentPanel";
 
@@ -21,7 +20,7 @@ const highlights = [
   "Sesuai untuk pemula — tiada asas diperlukan",
 ];
 
-const reviews = [
+const staticReviews = [
   {
     name: "Ain, KL",
     text: "Mudah sangat guna masa di Seoul. Frasa memang kena dengan situasi sebenar.",
@@ -36,7 +35,25 @@ const reviews = [
   },
 ];
 
-export default function KayHangeulTravelerPage() {
+async function getReviewStats(): Promise<{ count: number; average: number } | null> {
+  try {
+    const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+    if (!scriptUrl) return null;
+    const res = await fetch(`${scriptUrl}?action=review-stats`, { cache: "no-store" });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.count > 0 ? { count: data.count, average: data.average } : null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function KayHangeulTravelerPage() {
+  const reviewStats = await getReviewStats();
+  const ratingLabel = reviewStats
+    ? `${reviewStats.average}/5`
+    : "4.9/5";
+
   return (
     <>
       <Navbar />
@@ -63,7 +80,7 @@ export default function KayHangeulTravelerPage() {
                   <div className="flex items-center gap-2">
                     <p className="font-serif italic text-lg">KayHangeul Traveler Edition</p>
                     <p className="inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 font-sans text-xs font-semibold text-white">
-                      <span>4.9/5</span>
+                      <span>{ratingLabel}</span>
                       <span aria-hidden="true">⭐</span>
                     </p>
                   </div>
@@ -123,7 +140,7 @@ export default function KayHangeulTravelerPage() {
               <div className="space-y-4">
                 <p className="font-sans font-bold text-text-dark text-sm">💬 Review pengguna:</p>
                 <div className="grid gap-3">
-                  {reviews.map((review) => (
+                  {staticReviews.map((review) => (
                     <div key={review.name} className="rounded-2xl border border-cherry-pink/20 bg-white p-4 shadow-sm">
                       <p className="font-sans text-sm text-text-mid">"{review.text}"</p>
                       <p className="font-sans text-xs font-bold text-korean-red mt-2">{review.name}</p>
@@ -134,7 +151,7 @@ export default function KayHangeulTravelerPage() {
 
               {/* Payment buttons — mobile only (below content) */}
               <div className="lg:hidden">
-                <PaymentPanel />
+                <PaymentPanel initialReviewStats={reviewStats} />
               </div>
 
             </div>
@@ -142,13 +159,12 @@ export default function KayHangeulTravelerPage() {
             {/* Right — Payment panel, desktop only, sticky */}
             <div className="hidden lg:block lg:w-[40%] lg:sticky lg:top-28">
               <div className="bg-white rounded-3xl border border-cherry-pink/30 shadow-[0_8px_40px_rgba(255,183,197,0.2)] p-8">
-                <PaymentPanel />
+                <PaymentPanel initialReviewStats={reviewStats} />
               </div>
             </div>
 
           </div>
         </div>
-        <About />
       </main>
       <Footer />
     </>
