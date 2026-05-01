@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const menuLinks = [
   { label: "도서관 Library", href: "/library" },
-  { label: "특가 Deals", href: "/deals" },
-  { label: "고객센터 Support", href: "/support" },
-  { label: "이용약관 Terms", href: "/terms" },
+  { label: "특가 Deals", href: "#" },
+  { label: "고객센터 Support", href: "/contact" },
+  { label: "이용약관 Terms", href: "#" },
 ];
 
 const contactLinks = [
@@ -17,6 +18,14 @@ const contactLinks = [
 ];
 
 export default function Footer() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 100);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -91,9 +100,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 pt-8">
         <p className="text-xs opacity-30">© 2026 KayHangeul. All rights reserved.</p>
         <div className="flex gap-6 text-xs opacity-30">
-          <a href="/privacy" className="hover:opacity-100 transition-opacity">Privacy</a>
-          <a href="/terms" className="hover:opacity-100 transition-opacity">Terms</a>
-          <a href="/faq" className="hover:opacity-100 transition-opacity">FAQ</a>
+          <a href="#" className="hover:opacity-100 transition-opacity">Privacy</a>
+          <a href="#" className="hover:opacity-100 transition-opacity">Terms</a>
+          <a href="#" className="hover:opacity-100 transition-opacity">FAQ</a>
         </div>
       </div>
 
@@ -101,7 +110,9 @@ export default function Footer() {
       <button
         onClick={scrollToTop}
         aria-label="Scroll to top"
-        className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-charcoal text-white flex items-center justify-center transition-all duration-300 shadow-[0_0_0_4px_rgba(255,183,197,0.5)] hover:shadow-[0_0_0_6px_rgba(255,183,197,0.6)] hover:bg-korean-red z-50"
+        className={`fixed bottom-8 right-8 w-14 h-14 rounded-full bg-charcoal text-white flex items-center justify-center transition-all duration-300 shadow-[0_0_0_4px_rgba(255,183,197,0.5)] hover:shadow-[0_0_0_6px_rgba(255,183,197,0.6)] hover:bg-korean-red z-50 ${
+          visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 19V5M5 12l7-7 7 7" />
