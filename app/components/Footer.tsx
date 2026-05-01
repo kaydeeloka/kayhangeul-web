@@ -4,17 +4,18 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const menuLinks = [
+  { label: "홈 Home", href: "/" },
+  { label: "소개 About", href: "/about" },
   { label: "도서관 Library", href: "/library" },
-  { label: "특가 Deals", href: "#" },
-  { label: "고객센터 Support", href: "/contact" },
-  { label: "이용약관 Terms", href: "#" },
+  { label: "갤러리 Gallery", href: "/gallery" },
+  { label: "문의 Contact", href: "/contact" },
 ];
 
 const contactLinks = [
-  { label: "Email: hello@kayhangeul.com", href: "mailto:hello@kayhangeul.com" },
-  { label: "Instagram", href: "#" },
-  { label: "Kakao", href: "#" },
-  { label: "WhatsApp", href: "#" },
+  { label: "Email: nexanetraedu@gmail.com", href: "mailto:nexanetraedu@gmail.com", external: false },
+  { label: "Tiktok", href: "https://www.tiktok.com/@kaydeeloka", external: true },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/kaydeeloka", external: true },
+  { label: "WhatsApp", href: "https://wasap.my/60148243545/kayhangeul", external: true },
 ];
 
 export default function Footer() {
@@ -67,9 +68,13 @@ export default function Footer() {
             문의 Contact
           </h3>
           <ul className="space-y-3">
-            {contactLinks.map(({ label, href }) => (
+            {contactLinks.map(({ label, href, external }) => (
               <li key={label}>
-                <a href={href} className="text-sm opacity-60 hover:opacity-100 hover:text-crimson-pink transition-all">
+                <a
+                  href={href}
+                  {...(external && { target: "_blank", rel: "noopener noreferrer" })}
+                  className="text-sm opacity-60 hover:opacity-100 hover:text-crimson-pink transition-all"
+                >
                   {label}
                 </a>
               </li>
