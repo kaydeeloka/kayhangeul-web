@@ -1,27 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready(cb: () => void): void;
+      execute(siteKey: string, options: { action: string }): Promise<string>;
+    };
+  }
+}
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 const TOYYIBPAY_URL = "https://toyyibpay.com/KayHangeul-Traveler-Diskaun";
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 type ReviewStats = { count: number; average: number };
 
-export default function PaymentPanel({ initialReviewStats }: { initialReviewStats?: ReviewStats | null }) {
+export default function PaymentPanel({
+  initialReviewStats,
+  initialPurchaseCount,
+}: {
+  initialReviewStats?: ReviewStats | null;
+  initialPurchaseCount?: number | null;
+}) {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedRating, setSelectedRating]       = useState(0);
   const [submitting, setSubmitting]               = useState(false);
   const [submitError, setSubmitError]             = useState("");
   const [submitted, setSubmitted]                 = useState(false);
-  const [purchaseCount, setPurchaseCount]         = useState<number | null>(null);
+  const [purchaseCount]                           = useState<number | null>(initialPurchaseCount ?? null);
   const [reviewStats]                             = useState<ReviewStats | null>(initialReviewStats ?? null);
 
   useEffect(() => {
-    fetch("/api/purchase-count")
-      .then((r) => r.json())
-      .then((d) => setPurchaseCount(d.count ?? null))
-      .catch(() => {});
+    if (!RECAPTCHA_SITE_KEY || document.getElementById("recaptcha-script")) return;
+    const script = document.createElement("script");
+    script.id = "recaptcha-script";
+    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+    document.head.appendChild(script);
   }, []);
 
   async function handleSubmit(event: { preventDefault(): void; currentTarget: HTMLFormElement }) {
@@ -32,16 +50,32 @@ export default function PaymentPanel({ initialReviewStats }: { initialReviewStat
     }
 
     const form = event.currentTarget;
-    const data = {
-      name:   (form.elements.namedItem("name")   as HTMLInputElement).value,
-      rating: selectedRating,
-      review: (form.elements.namedItem("review") as HTMLTextAreaElement).value,
-    };
 
     setSubmitting(true);
     setSubmitError("");
 
     try {
+      let recaptchaToken = "";
+      if (RECAPTCHA_SITE_KEY) {
+        recaptchaToken = await new Promise<string>((resolve, reject) => {
+          window.grecaptcha.ready(async () => {
+            try {
+              const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "submit_review" });
+              resolve(token);
+            } catch {
+              reject(new Error("reCAPTCHA failed"));
+            }
+          });
+        });
+      }
+
+      const data = {
+        name:           (form.elements.namedItem("name")   as HTMLInputElement).value,
+        rating:         selectedRating,
+        review:         (form.elements.namedItem("review") as HTMLTextAreaElement).value,
+        recaptchaToken,
+      };
+
       const res = await fetch("/api/reviews", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },

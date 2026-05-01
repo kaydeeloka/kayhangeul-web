@@ -48,8 +48,21 @@ async function getReviewStats(): Promise<{ count: number; average: number } | nu
   }
 }
 
+async function getPurchaseCount(): Promise<number | null> {
+  try {
+    const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+    if (!scriptUrl) return null;
+    const res = await fetch(`${scriptUrl}?action=purchase-count`, { cache: "no-store" });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return typeof data.count === "number" ? data.count : null;
+  } catch {
+    return null;
+  }
+}
+
 export default async function KayHangeulTravelerPage() {
-  const reviewStats = await getReviewStats();
+  const [reviewStats, purchaseCount] = await Promise.all([getReviewStats(), getPurchaseCount()]);
   const ratingLabel = reviewStats
     ? `${reviewStats.average}/5`
     : "4.9/5";
@@ -151,7 +164,7 @@ export default async function KayHangeulTravelerPage() {
 
               {/* Payment buttons — mobile only (below content) */}
               <div className="lg:hidden">
-                <PaymentPanel initialReviewStats={reviewStats} />
+                <PaymentPanel initialReviewStats={reviewStats} initialPurchaseCount={purchaseCount} />
               </div>
 
             </div>
@@ -159,7 +172,7 @@ export default async function KayHangeulTravelerPage() {
             {/* Right — Payment panel, desktop only, sticky */}
             <div className="hidden lg:block lg:w-[40%] lg:sticky lg:top-28">
               <div className="bg-white rounded-3xl border border-cherry-pink/30 shadow-[0_8px_40px_rgba(255,183,197,0.2)] p-8">
-                <PaymentPanel initialReviewStats={reviewStats} />
+                <PaymentPanel initialReviewStats={reviewStats} initialPurchaseCount={purchaseCount} />
               </div>
             </div>
 
