@@ -7,10 +7,15 @@ const EBOOK_URL = process.env.NEXT_PUBLIC_EBOOK_URL ?? "";
 export default async function ThankYouPage({
   searchParams,
 }: {
-  searchParams: Promise<{ token?: string }>;
+  searchParams: Promise<{ token?: string; status_id?: string }>;
 }) {
-  const { token } = await searchParams;
-  const isValid = !!process.env.THANKYOU_TOKEN && token === process.env.THANKYOU_TOKEN;
+  const { token, status_id } = await searchParams;
+
+  const validToken = !!process.env.THANKYOU_TOKEN && token === process.env.THANKYOU_TOKEN;
+
+  // status_id: 1=success, 2=pending, 3=fail. Default to success if no status_id (e.g. PayPal)
+  const status = status_id === "2" ? "pending" : status_id === "3" ? "failed" : "success";
+  const isSuccess = validToken && status === "success";
 
   return (
     <>
@@ -20,24 +25,33 @@ export default async function ThankYouPage({
 
           {/* Icon */}
           <div className="flex justify-center">
-            <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-lg ${isValid ? "bg-light-pink" : "bg-gray-100"}`}>
-              {isValid ? (
+            <div className={`w-24 h-24 rounded-full flex items-center justify-center shadow-lg ${
+              isSuccess ? "bg-light-pink" : status === "pending" ? "bg-yellow-50" : "bg-gray-100"
+            }`}>
+              {isSuccess && (
                 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ed155d" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-              ) : (
+              )}
+              {status === "pending" && (
+                <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              )}
+              {(status === "failed" || !validToken) && (
                 <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                  <line x1="15" y1="9" x2="9" y2="15" />
+                  <line x1="9" y1="9" x2="15" y2="15" />
                 </svg>
               )}
             </div>
           </div>
 
-          {isValid ? (
+          {/* Success */}
+          {isSuccess && (
             <>
-              {/* Success heading */}
               <div className="space-y-3">
                 <span className="font-sans text-crimson-pink font-bold text-xs uppercase tracking-[0.4em] block">
                   Pembayaran Berjaya — Payment Successful
@@ -50,7 +64,6 @@ export default async function ThankYouPage({
                 </p>
               </div>
 
-              {/* Download card */}
               <div className="bg-white rounded-3xl border border-cherry-pink/30 shadow-[0_8px_40px_rgba(255,183,197,0.2)] p-8 space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="w-14 h-14 rounded-2xl bg-light-pink flex items-center justify-center shrink-0">
@@ -86,7 +99,6 @@ export default async function ThankYouPage({
                 </p>
               </div>
 
-              {/* What's next */}
               <div className="text-left bg-light-pink rounded-3xl p-6 border border-cherry-pink/30 space-y-3">
                 <p className="font-sans font-bold text-text-dark text-sm">Langkah seterusnya:</p>
                 {[
@@ -101,47 +113,84 @@ export default async function ThankYouPage({
                 ))}
               </div>
             </>
-          ) : (
+          )}
+
+          {/* Pending */}
+          {validToken && status === "pending" && (
             <>
-              {/* Blocked state */}
               <div className="space-y-3">
+                <span className="font-sans text-yellow-600 font-bold text-xs uppercase tracking-[0.4em] block">
+                  Pembayaran Dalam Proses — Payment Pending
+                </span>
                 <h1 className="font-sans font-black text-4xl md:text-5xl tracking-tighter">
-                  Halaman Tidak Sah
+                  Tunggu Sebentar...
                 </h1>
                 <p className="font-serif italic text-xl text-text-mid">
-                  This page is only accessible after a completed purchase.
+                  Your payment is being processed.
                 </p>
               </div>
-
-              <div className="bg-white rounded-3xl border border-gray-200 p-8 space-y-4">
+              <div className="bg-white rounded-3xl border border-yellow-200 p-8 space-y-4">
                 <p className="font-sans text-sm text-text-mid leading-relaxed">
-                  Jika anda telah membuat pembayaran dan tersesat di sini, sila hubungi kami dan kami akan hantar pautan muat turun terus ke e-mel anda.
+                  Pembayaran anda sedang disahkan. Ini biasanya mengambil masa beberapa minit. Kami akan hantar pautan muat turun sebaik sahaja pembayaran disahkan.
                 </p>
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center w-full bg-charcoal text-white py-4 rounded-2xl font-sans font-bold text-sm uppercase tracking-widest hover:bg-crimson-pink transition-colors duration-300"
                 >
-                  Hubungi Kami
+                  Hubungi Kami Jika Ada Masalah
                 </Link>
               </div>
             </>
           )}
 
-          {/* Footer actions */}
+          {/* Failed or invalid */}
+          {(status === "failed" || !validToken) && (
+            <>
+              <div className="space-y-3">
+                <h1 className="font-sans font-black text-4xl md:text-5xl tracking-tighter">
+                  {status === "failed" ? "Pembayaran Gagal" : "Halaman Tidak Sah"}
+                </h1>
+                <p className="font-serif italic text-xl text-text-mid">
+                  {status === "failed"
+                    ? "Your payment was not completed."
+                    : "This page is only accessible after a completed purchase."}
+                </p>
+              </div>
+              <div className="bg-white rounded-3xl border border-gray-200 p-8 space-y-4">
+                <p className="font-sans text-sm text-text-mid leading-relaxed">
+                  {status === "failed"
+                    ? "Transaksi tidak berjaya. Sila cuba semula atau hubungi kami jika wang telah ditolak."
+                    : "Jika anda telah membuat pembayaran dan tersesat di sini, sila hubungi kami dan kami akan hantar pautan muat turun terus ke e-mel anda."}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  {status === "failed" && (
+                    <Link
+                      href="/library/kayhangeul-traveler"
+                      className="flex-1 flex items-center justify-center bg-charcoal text-white py-4 rounded-2xl font-sans font-bold text-sm uppercase tracking-widest hover:bg-crimson-pink transition-colors duration-300"
+                    >
+                      Cuba Semula
+                    </Link>
+                  )}
+                  <Link
+                    href="/contact"
+                    className="flex-1 flex items-center justify-center border border-gray-200 text-text-dark py-4 rounded-2xl font-sans font-bold text-sm uppercase tracking-widest hover:border-crimson-pink hover:text-crimson-pink transition-colors duration-300"
+                  >
+                    Hubungi Kami
+                  </Link>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Footer links */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link
-              href="/library/kayhangeul-traveler"
-              className="font-sans text-sm text-crimson-pink font-bold hover:underline"
-            >
+            <Link href="/library/kayhangeul-traveler" className="font-sans text-sm text-crimson-pink font-bold hover:underline">
               ← Kembali ke halaman produk
             </Link>
-            {isValid && (
+            {isSuccess && (
               <>
                 <span className="hidden sm:block text-text-light">·</span>
-                <Link
-                  href="/contact"
-                  className="font-sans text-sm text-text-light hover:text-crimson-pink transition-colors"
-                >
+                <Link href="/contact" className="font-sans text-sm text-text-light hover:text-crimson-pink transition-colors">
                   Ada masalah? Hubungi kami
                 </Link>
               </>
