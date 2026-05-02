@@ -16,7 +16,7 @@ declare global {
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 const TOYYIBPAY_URL = "https://toyyibpay.com/Ebook-Edisi-Traveler";
-const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
+// const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 type ReviewStats = { count: number; average: number };
 
@@ -137,10 +137,11 @@ export default function PaymentPanel({
           rel="noopener noreferrer"
           className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
         >
-          <span>🏦 Pay with FPX</span>
+          <span>🏦 Pay with FPX/DuitNow Qr</span>
           <span className="text-xs font-normal opacity-70">Online Banking Malaysia</span>
         </Link>
 
+        {/* hidden until payment methods are ready
         <Link
           href={PAYPAL_URL}
           target="_blank"
@@ -170,6 +171,7 @@ export default function PaymentPanel({
           <span>💳 Pay with Card</span>
           <span className="text-xs font-normal opacity-70">Visa / Mastercard</span>
         </Link>
+        */}
 
         <p className="pt-1 text-center font-sans text-xs text-text-light">
           Semua transaksi diproses dengan selamat melalui ToyyibPay & PayPal🔒
