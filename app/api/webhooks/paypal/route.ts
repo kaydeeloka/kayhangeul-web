@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   const buyerEmail = resource.payer?.email_address ?? "";
   const buyerName  = resource.payer?.name?.given_name ?? "Pelanggan";
 
-  const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+  const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
   if (!scriptUrl) return NextResponse.json({ error: "Server misconfiguration." }, { status: 500 });
 
   await Promise.all([

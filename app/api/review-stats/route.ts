@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+  const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
   if (!scriptUrl) return NextResponse.json({ count: 0, average: 0 });
 
   const res = await fetch(`${scriptUrl}?action=review-stats`, { cache: "no-store" });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 
 declare global {
@@ -69,8 +70,10 @@ export default function PaymentPanel({
         });
       }
 
+      const name     = (form.elements.namedItem("name")     as HTMLInputElement).value;
+      const location = (form.elements.namedItem("location") as HTMLInputElement).value;
       const data = {
-        name:           (form.elements.namedItem("name")   as HTMLInputElement).value,
+        name:           location ? `${name}, ${location}` : name,
         rating:         selectedRating,
         review:         (form.elements.namedItem("review") as HTMLTextAreaElement).value,
         recaptchaToken,
@@ -183,8 +186,8 @@ export default function PaymentPanel({
         </div>
       </div>
 
-      {isReviewModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6" onClick={() => setIsReviewModalOpen(false)}>
+      {isReviewModalOpen && createPortal(
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 px-4 py-6" onClick={() => setIsReviewModalOpen(false)}>
           <div
             className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
             onClick={(event) => event.stopPropagation()}
@@ -192,7 +195,7 @@ export default function PaymentPanel({
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
                 <h3 className="font-sans text-xl font-black text-text-dark">Tambah Review</h3>
-                {!submitted && <p className="mt-1 font-sans text-sm text-text-light">Kongsi pengalaman anda guna KayHangeul Traveler Pack.</p>}
+                {!submitted && <p className="mt-1 font-sans text-sm text-text-light">Kongsikan pengalaman anda menggunakan KayHangeul Edisi Traveler supaya orang lain juga boleh membuat pilihan yang tepat.</p>}
               </div>
               <button
                 type="button"
@@ -226,6 +229,12 @@ export default function PaymentPanel({
                 name="name"
                 type="text"
                 placeholder="Nama"
+                className="w-full rounded-xl border border-cherry-pink/30 px-3 py-2 font-sans text-sm outline-none focus:border-korean-red"
+              />
+              <input
+                name="location"
+                type="text"
+                placeholder="Dari mana anda? (contoh: KL, Johor, Singapore...)"
                 className="w-full rounded-xl border border-cherry-pink/30 px-3 py-2 font-sans text-sm outline-none focus:border-korean-red"
               />
               <div className="rounded-xl border border-cherry-pink/30 px-3 py-2">
@@ -279,7 +288,7 @@ export default function PaymentPanel({
             )}
           </div>
         </div>
-      )}
+      , document.body)}
     </>
   );
 }

@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   const statusMap: Record<string, string> = { "1": "success", "2": "pending", "3": "failed" };
   const resolvedStatus = statusMap[status] ?? "failed";
 
-  const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+  const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
   if (!scriptUrl) return NextResponse.json({ error: "Server misconfiguration." }, { status: 500 });
 
   await Promise.all([

@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Image from "next/image";
 import PaymentPanel from "@/app/library/kayhangeul-traveler/PaymentPanel";
+import ReviewsSection, { type Review } from "@/app/library/kayhangeul-traveler/ReviewsSection";
 
 const features = [
   "50+ Frasa Harian Korea untuk situasi sebenar",
@@ -20,24 +21,22 @@ const highlights = [
   "Sesuai untuk pemula — tiada asas diperlukan",
 ];
 
-const staticReviews = [
-  {
-    name: "Ain, KL",
-    text: "Mudah sangat guna masa di Seoul. Frasa memang kena dengan situasi sebenar.",
-  },
-  {
-    name: "Faris, Johor",
-    text: "Saya jenis cepat lupa, tapi format dia ringkas dan senang rujuk masa travel.",
-  },
-  {
-    name: "Siti, Penang",
-    text: "Audio dia membantu sebutan. Orang Korea terus faham apa saya nak cakap.",
-  },
-];
+async function getReviews(): Promise<Review[]> {
+  try {
+    const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
+    if (!scriptUrl) return [];
+    const res = await fetch(`${scriptUrl}?action=reviews`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return Array.isArray(data.reviews) ? data.reviews : [];
+  } catch {
+    return [];
+  }
+}
 
 async function getReviewStats(): Promise<{ count: number; average: number } | null> {
   try {
-    const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+    const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
     if (!scriptUrl) return null;
     const res = await fetch(`${scriptUrl}?action=review-stats`, { cache: "no-store" });
     if (!res.ok) return null;
@@ -50,7 +49,7 @@ async function getReviewStats(): Promise<{ count: number; average: number } | nu
 
 async function getPurchaseCount(): Promise<number | null> {
   try {
-    const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+    const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
     if (!scriptUrl) return null;
     const res = await fetch(`${scriptUrl}?action=purchase-count`, { cache: "no-store" });
     if (!res.ok) return null;
@@ -62,7 +61,7 @@ async function getPurchaseCount(): Promise<number | null> {
 }
 
 export default async function KayHangeulTravelerPage() {
-  const [reviewStats, purchaseCount] = await Promise.all([getReviewStats(), getPurchaseCount()]);
+  const [reviewStats, purchaseCount, reviews] = await Promise.all([getReviewStats(), getPurchaseCount(), getReviews()]);
   const ratingLabel = reviewStats
     ? `${reviewStats.average}/5`
     : "4.9/5";
@@ -150,17 +149,7 @@ export default async function KayHangeulTravelerPage() {
               </div>
 
               {/* Reviews */}
-              <div className="space-y-4">
-                <p className="font-sans font-bold text-text-dark text-sm">💬 Review pengguna:</p>
-                <div className="grid gap-3">
-                  {staticReviews.map((review) => (
-                    <div key={review.name} className="rounded-2xl border border-cherry-pink/20 bg-white p-4 shadow-sm">
-                      <p className="font-sans text-sm text-text-mid">"{review.text}"</p>
-                      <p className="font-sans text-xs font-bold text-korean-red mt-2">{review.name}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ReviewsSection reviews={reviews} />
 
               {/* Payment buttons — mobile only (below content) */}
               <div className="lg:hidden">

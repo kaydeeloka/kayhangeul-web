@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
+  const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
   if (!scriptUrl) return NextResponse.json({ error: "Server misconfiguration." }, { status: 500 });
 
   const res = await fetch(scriptUrl, {
