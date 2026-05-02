@@ -27,6 +27,7 @@ export default function PaymentPanel({
   initialReviewStats?: ReviewStats | null;
   initialPurchaseCount?: number | null;
 }) {
+  const [mounted, setMounted]                     = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [selectedRating, setSelectedRating]       = useState(0);
   const [submitting, setSubmitting]               = useState(false);
@@ -34,6 +35,8 @@ export default function PaymentPanel({
   const [submitted, setSubmitted]                 = useState(false);
   const [purchaseCount]                           = useState<number | null>(initialPurchaseCount ?? null);
   const [reviewStats]                             = useState<ReviewStats | null>(initialReviewStats ?? null);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!RECAPTCHA_SITE_KEY || document.getElementById("recaptcha-script")) return;
@@ -186,7 +189,7 @@ export default function PaymentPanel({
         </div>
       </div>
 
-      {isReviewModalOpen && createPortal(
+      {mounted && isReviewModalOpen && createPortal(
         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/50 px-4 py-6" onClick={() => setIsReviewModalOpen(false)}>
           <div
             className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
