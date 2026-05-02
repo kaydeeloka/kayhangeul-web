@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
       }),
     }),
     resolvedStatus === "success" && buyerEmail
-      ? sendPurchaseEmail(buyerEmail, buyerName)
+      ? sendPurchaseEmail(buyerEmail, buyerName, orderId)
       : Promise.resolve(),
   ]);
 

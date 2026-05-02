@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
-
-const DOWNLOAD_URL = `https://drive.google.com/file/d/${process.env.EBOOK_FILE_ID}/view?usp=drive_link`;
+import { generateDownloadUrl } from "@/app/api/ebook/route";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -10,7 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendPurchaseEmail(buyerEmail: string, buyerName: string) {
+export async function sendPurchaseEmail(buyerEmail: string, buyerName: string, orderId: string) {
   if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) return;
 
   await transporter.sendMail({
@@ -28,7 +27,7 @@ export async function sendPurchaseEmail(buyerEmail: string, buyerName: string) {
             E-book <strong>KayHangeul Traveler Pack</strong> anda sudah sedia untuk dimuat turun. Klik butang di bawah untuk akses:
           </p>
           <div style="text-align:center;margin:28px 0">
-            <a href="${DOWNLOAD_URL}"
+            <a href="${generateDownloadUrl(orderId)}"
                style="background:#ed155d;color:white;padding:16px 36px;border-radius:12px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:1px;text-transform:uppercase;display:inline-block">
               Muat Turun Ebook →
             </a>

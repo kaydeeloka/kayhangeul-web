@@ -1,19 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendPurchaseEmail } from "@/app/lib/sendPurchaseEmail";
 
-// PayPal POSTs JSON events to this URL
-// Configure this URL in PayPal Developer Dashboard → Webhooks
-// Event to subscribe: PAYMENT.CAPTURE.COMPLETED
+// Handles both PayPal IPN (form-encoded) and REST webhook (JSON)
 export async function POST(req: NextRequest) {
+  const contentType = req.headers.get("content-type") ?? "";
+
+  // --- PayPal IPN ---
+  if (contentType.includes("application/x-www-form-urlencoded")) {
+    const text = await req.text();
+    const params = new URLSearchParams(text);
+
+    // Verify with PayPal
+    const verifyRes = await fetch("https://ipnpb.paypal.com/cgi-bin/webscr", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `cmd=_notify-validate&${text}`,
+    });
+    const verifyText = await verifyRes.text();
+    if (verifyText !== "VERIFIED") {
+      return NextResponse.json({ error: "IPN not verified" }, { status: 400 });
+    }
+
+    const paymentStatus = params.get("payment_status");
+    if (paymentStatus !== "Completed") {
+      return NextResponse.json({ ignored: true });
+    }
+
+    const buyerEmail = params.get("payer_email")  ?? "";
+    const buyerName  = params.get("first_name")   ?? "Pelanggan";
+    const orderId    = params.get("txn_id")        ?? "";
+    const amount     = params.get("mc_gross")      ?? "";
+
+    const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
+    if (scriptUrl) {
+      await fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "purchase", provider: "paypal",
+          order_id: orderId, amount, status: "success", email: buyerEmail,
+        }),
+      });
+    }
+
+    if (buyerEmail) await sendPurchaseEmail(buyerEmail, buyerName, orderId);
+    return NextResponse.json({ success: true });
+  }
+
+  // --- PayPal REST Webhook ---
   const event = await req.json();
 
-  if (event.event_type !== "PAYMENT.CAPTURE.COMPLETED") {
+  // CHECKOUT.ORDER.COMPLETED has payer email in the payload
+  // PAYMENT.CAPTURE.COMPLETED does not — ignore it since ORDER.COMPLETED fires too
+  if (event.event_type !== "CHECKOUT.ORDER.COMPLETED") {
     return NextResponse.json({ ignored: true });
   }
 
   const resource   = event.resource ?? {};
   const orderId    = resource.id ?? "";
-  const amount     = resource.amount?.value ?? "";
+  const amount     = resource.purchase_units?.[0]?.amount?.value ?? "";
   const buyerEmail = resource.payer?.email_address ?? "";
   const buyerName  = resource.payer?.name?.given_name ?? "Pelanggan";
 
@@ -25,15 +70,11 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        type:     "purchase",
-        provider: "paypal",
-        order_id: orderId,
-        amount,
-        status:   "success",
-        email:    buyerEmail,
+        type: "purchase", provider: "paypal",
+        order_id: orderId, amount, status: "success", email: buyerEmail,
       }),
     }),
-    buyerEmail ? sendPurchaseEmail(buyerEmail, buyerName) : Promise.resolve(),
+    buyerEmail ? sendPurchaseEmail(buyerEmail, buyerName, orderId) : Promise.resolve(),
   ]);
 
   return NextResponse.json({ success: true });
