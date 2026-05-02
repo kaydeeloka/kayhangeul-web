@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
+import { sendPurchaseEmail } from "@/app/lib/sendPurchaseEmail";
 
 // Configure Callback URL in ToyyibPay category settings (not available on localhost)
 export async function POST(req: NextRequest) {
   const form = await req.formData();
 
-  const refno   = form.get("refno")?.toString()    ?? "";
-  const status  = form.get("status")?.toString()   ?? "";
-  const orderId = form.get("order_id")?.toString() ?? "";
-  const amount  = form.get("amount")?.toString()   ?? "";
-  const hash    = form.get("hash")?.toString()     ?? "";
+  const refno      = form.get("refno")?.toString()       ?? "";
+  const status     = form.get("status")?.toString()      ?? "";
+  const orderId    = form.get("order_id")?.toString()    ?? "";
+  const amount     = form.get("amount")?.toString()      ?? "";
+  const hash       = form.get("hash")?.toString()        ?? "";
+  const buyerEmail = form.get("email")?.toString()       ?? "";
+  const buyerName  = form.get("name")?.toString()        ?? "Pelanggan";
 
   // Validate hash: MD5(secretKey + status + order_id + refno + "ok")
   const secretKey    = process.env.TOYYIBPAY_SECRET_KEY ?? "";
@@ -28,17 +31,23 @@ export async function POST(req: NextRequest) {
   const scriptUrl = process.env.GOOGLE_SCRIPT_URL;
   if (!scriptUrl) return NextResponse.json({ error: "Server misconfiguration." }, { status: 500 });
 
-  await fetch(scriptUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      type:     "purchase",
-      provider: "toyyibpay",
-      order_id: orderId,
-      amount,                // already in RM e.g. "9.99"
-      status:   resolvedStatus,
+  await Promise.all([
+    fetch(scriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type:     "purchase",
+        provider: "toyyibpay",
+        order_id: orderId,
+        amount,
+        status:   resolvedStatus,
+        email:    buyerEmail,
+      }),
     }),
-  });
+    resolvedStatus === "success" && buyerEmail
+      ? sendPurchaseEmail(buyerEmail, buyerName)
+      : Promise.resolve(),
+  ]);
 
   return NextResponse.json({ success: true });
 }

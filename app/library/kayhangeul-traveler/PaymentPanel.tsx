@@ -250,7 +250,7 @@ export default function PaymentPanel({
               <textarea
                 required
                 name="review"
-                rows={4}
+                rows={10}
                 placeholder="Tulis review anda..."
                 className="w-full rounded-xl border border-cherry-pink/30 px-3 py-2 font-sans text-sm outline-none focus:border-korean-red"
               />
