@@ -3,7 +3,7 @@ import { sendPurchaseEmail } from "@/app/lib/sendPurchaseEmail";
 
 export async function GET() {
   try {
-    await sendPurchaseEmail("nexanetraedu@gmail.com", "Kay");
+    await sendPurchaseEmail("nexanetraedu@gmail.com", "Kay", "test-order");
     return NextResponse.json({ success: true, message: "Email sent!" });
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 });

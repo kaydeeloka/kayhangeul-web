@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { generateDownloadUrl } from "@/app/api/ebook/route";
+import { generateDownloadUrl } from "@/app/lib/downloadToken";
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
