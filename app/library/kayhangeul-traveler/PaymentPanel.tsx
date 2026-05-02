@@ -15,7 +15,7 @@ declare global {
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
-const TOYYIBPAY_URL = "https://toyyibpay.com/KayHangeul-Traveler-Diskaun";
+const TOYYIBPAY_URL = "https://toyyibpay.com/Ebook-Edisi-Traveler";
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 type ReviewStats = { count: number; average: number };
