@@ -115,7 +115,7 @@ export default async function DownloadPage({
             </>
           )}
 
-          <Link href="/library/kayhangeul-traveler" className="font-sans text-sm text-crimson-pink font-bold hover:underline">
+          <Link href="/library/traveler" className="font-sans text-sm text-crimson-pink font-bold hover:underline">
             ← Kembali ke halaman produk
           </Link>
         </div>

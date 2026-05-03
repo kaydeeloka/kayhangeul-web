@@ -78,7 +78,7 @@ export default function Product() {
                 <span className="font-sans text-base opacity-30 line-through">RM 25.90</span>
               </div>
               <Link
-                href="/library/kayhangeul-traveler"
+                href="/library/traveler"
                 className="w-full bg-cherry-pink text-charcoal py-4 rounded-2xl font-sans font-bold text-sm tracking-widest transition-colors duration-300 hover:bg-korean-red hover:text-white text-center block"
               >
                 지금 구매하기 Buy Now →

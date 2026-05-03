@@ -1,8 +1,8 @@
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
 import Image from "next/image";
-import PaymentPanel from "@/app/library/kayhangeul-traveler/PaymentPanel";
-import ReviewsSection, { type Review } from "@/app/library/kayhangeul-traveler/ReviewsSection";
+import PaymentPanel from "@/app/(library)/library/traveler/PaymentPanel";
+import ReviewsSection, { type Review } from "@/app/(library)/library/traveler/ReviewsSection";
 
 const features = [
   "50+ Frasa Harian Korea untuk situasi sebenar",
