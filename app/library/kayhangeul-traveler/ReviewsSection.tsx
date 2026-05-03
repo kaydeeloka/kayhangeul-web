@@ -17,12 +17,12 @@ function StarRating({ rating }: { rating: number }) {
 function ReviewCard({ review }: { review: Review }) {
   return (
     <div className="rounded-2xl border border-cherry-pink/20 bg-white p-4 shadow-sm space-y-2">
-      <StarRating rating={review.rating} />
-      <p className="font-sans text-sm text-text-mid">"{review.review}"</p>
       <div className="flex items-center justify-between">
-        <p className="font-sans text-xs font-bold text-korean-red">{review.name}</p>
+        <StarRating rating={review.rating} />
         {review.date && <p className="font-sans text-xs text-text-light">{review.date}</p>}
       </div>
+      <p className="font-sans text-sm text-text-mid">"{review.review}"</p>
+      <p className="font-sans text-xs font-bold text-korean-red">{review.name}</p>
     </div>
   );
 }
