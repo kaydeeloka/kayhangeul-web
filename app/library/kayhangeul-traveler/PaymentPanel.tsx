@@ -15,7 +15,7 @@ declare global {
 
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
-const TOYYIBPAY_URL = "https://toyyibpay.com/Ebook-Edisi-Traveler";
+
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 type ReviewStats = { count: number; average: number };
@@ -35,6 +35,7 @@ export default function PaymentPanel({
   const [submitted, setSubmitted]                 = useState(false);
   const [purchaseCount]                           = useState<number | null>(initialPurchaseCount ?? null);
   const [reviewStats]                             = useState<ReviewStats | null>(initialReviewStats ?? null);
+  const [fpxLoading, setFpxLoading]               = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -100,6 +101,19 @@ export default function PaymentPanel({
     }
   }
 
+  async function handleFpxPay() {
+    setFpxLoading(true);
+    try {
+      const res = await fetch("/api/create-bill", { method: "POST" });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch {
+      alert("Gagal membuat bil. Sila cuba lagi.");
+    } finally {
+      setFpxLoading(false);
+    }
+  }
+
   function openModal() {
     setSelectedRating(0);
     setSubmitError("");
@@ -131,15 +145,15 @@ export default function PaymentPanel({
 
         <p className="pt-1 font-sans text-xs font-bold uppercase tracking-widest text-text-light">Pilih kaedah pembayaran:</p>
 
-        <Link
-          href={TOYYIBPAY_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
+        <button
+          type="button"
+          onClick={handleFpxPay}
+          disabled={fpxLoading}
+          className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90 disabled:opacity-60"
         >
-          <span>🏦 Pay with FPX/DuitNow Qr</span>
+          <span>🏦 {fpxLoading ? "Memproses..." : "Pay with FPX/DuitNow QR"}</span>
           <span className="text-xs font-normal opacity-70">Online Banking Malaysia</span>
-        </Link>
+        </button>
 
         <Link
           href={PAYPAL_URL}
