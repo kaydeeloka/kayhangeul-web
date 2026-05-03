@@ -18,8 +18,8 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "KayHangeul | Edisi Traveler Korea",
-  description: "Kuasai frasa harian Korea dengan panduan audio yang direka khusus untuk pengembara Malaysia.",
+  title: "KayHangeul | Korea Mudah untuk Traveler",
+  description: "Panduan ringkas belajar bahasa Korea untuk pelancong. Kuasai frasa harian Korea dengan panduan audio — mudah, cepat, dan sesuai digunakan ketika melancong.",
 };
 
 export default function RootLayout({
