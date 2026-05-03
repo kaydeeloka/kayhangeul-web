@@ -74,8 +74,8 @@ export default function Product() {
             {/* Price + CTA */}
             <div className="space-y-4">
               <div className="flex items-baseline gap-3">
-                <span className="font-sans text-3xl font-black text-korean-red">RM 14.90</span>
-                <span className="font-sans text-base opacity-30 line-through">RM 29.90</span>
+                <span className="font-sans text-3xl font-black text-korean-red">RM 15.90</span>
+                <span className="font-sans text-base opacity-30 line-through">RM 25.90</span>
               </div>
               <Link
                 href="/library/kayhangeul-traveler"

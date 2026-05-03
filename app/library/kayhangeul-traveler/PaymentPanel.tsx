@@ -16,7 +16,7 @@ declare global {
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 const TOYYIBPAY_URL = "https://toyyibpay.com/Ebook-Edisi-Traveler";
-// const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
+const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 type ReviewStats = { count: number; average: number };
 
@@ -141,7 +141,6 @@ export default function PaymentPanel({
           <span className="text-xs font-normal opacity-70">Online Banking Malaysia</span>
         </Link>
 
-        {/* hidden until payment methods are ready
         <Link
           href={PAYPAL_URL}
           target="_blank"
@@ -171,10 +170,9 @@ export default function PaymentPanel({
           <span>💳 Pay with Card</span>
           <span className="text-xs font-normal opacity-70">Visa / Mastercard</span>
         </Link>
-        */}
 
         <p className="pt-1 text-center font-sans text-xs text-text-light">
-          Semua transaksi diproses dengan selamat melalui ToyyibPay & PayPal🔒
+          Semua transaksi diproses dengan selamat melalui ToyyibPay & PayPal 🔒
         </p>
 
         <div className="flex items-center justify-between gap-3 pt-2">
