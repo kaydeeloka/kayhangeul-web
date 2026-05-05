@@ -49,16 +49,20 @@ export async function POST(req: NextRequest) {
 
   // --- PayPal REST Webhook ---
   const event = await req.json();
+  const eventType = event.event_type ?? "";
 
-  // CHECKOUT.ORDER.COMPLETED has payer email in the payload
-  // PAYMENT.CAPTURE.COMPLETED does not — ignore it since ORDER.COMPLETED fires too
-  if (event.event_type !== "CHECKOUT.ORDER.COMPLETED") {
+  if (eventType !== "PAYMENT.CAPTURE.COMPLETED" && eventType !== "CHECKOUT.ORDER.COMPLETED") {
     return NextResponse.json({ ignored: true });
   }
 
-  const resource   = event.resource ?? {};
+  const resource = event.resource ?? {};
+
+  // PAYMENT.CAPTURE.COMPLETED — fires for payment links, no buyer email
+  // CHECKOUT.ORDER.COMPLETED  — fires for checkout API, includes buyer email
   const orderId    = resource.id ?? "";
-  const amount     = resource.purchase_units?.[0]?.amount?.value ?? "";
+  const amount     = eventType === "CHECKOUT.ORDER.COMPLETED"
+    ? resource.purchase_units?.[0]?.amount?.value ?? ""
+    : resource.amount?.value ?? "";
   const buyerEmail = resource.payer?.email_address ?? "";
   const buyerName  = resource.payer?.name?.given_name ?? "Pelanggan";
 
