@@ -122,8 +122,8 @@ export default function PaymentPanel({
         </div>
 
         <div className="space-y-1">
-          <p className="font-sans font-black text-3xl text-korean-red">RM 15.90</p>
-          <div className="flex items-center gap-2">
+          <p className="font-sans font-black text-3xl text-korean-red">RM 24.90</p>
+          <div className="hidden items-center gap-2">
             <span className="font-sans text-base text-text-light line-through">RM 24.90</span>
             <span className="rounded-full bg-korean-red px-2.5 py-0.5 text-xs font-black text-white">40% OFF</span>
           </div>
