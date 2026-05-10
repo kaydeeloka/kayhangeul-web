@@ -124,7 +124,7 @@ export default function PaymentPanel({
         <div className="space-y-1">
           <p className="font-sans font-black text-3xl text-korean-red">RM 15.90</p>
           <div className="flex items-center gap-2">
-            <span className="font-sans text-base text-text-light line-through">RM 25.90</span>
+            <span className="font-sans text-base text-text-light line-through">RM 24.90</span>
             <span className="rounded-full bg-korean-red px-2.5 py-0.5 text-xs font-black text-white">40% OFF</span>
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function PaymentPanel({
         <p className="pt-1 font-sans text-xs font-bold uppercase tracking-widest text-text-light">Pilih kaedah pembayaran:</p>
 
         <Link
-          href="https://toyyibpay.com/Ebook-Edisi-Traveler"
+          href="https://toyyibpay.com/Ebook-Kayhangeul-Edisi-Traveler"
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
