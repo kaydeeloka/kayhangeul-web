@@ -88,27 +88,14 @@ export default function Footer() {
 
       {/* Legal entity */}
       <div className="max-w-7xl mx-auto pt-8 pb-6">
-        <p className="text-xs font-bold uppercase tracking-widest opacity-40 mb-3">Legal Entity</p>
         <div className="flex items-center gap-2 text-xs opacity-25">
-          <span>NexaNetra Ventures</span>
+          <span>Company Name: NexaNetra Ventures</span>
           <span className="opacity-50">·</span>
-          <span>Reg. No. CA0408300-V</span>
+          <span>Registration No: CA0408300-V</span>
           <span className="opacity-50">·</span>
-          <span>DUNS 47-325-1117</span>
+          <span>DUNS Number: 47-325-1117</span>
         </div>
-      </div>
-
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto border-t border-white/10" />
-
-      {/* Bottom bar */}
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 pt-8">
-        <p className="text-xs opacity-30">© 2026 KayHangeul. All rights reserved.</p>
-        <div className="flex gap-6 text-xs opacity-30">
-          <a href="#" className="hover:opacity-100 transition-opacity">Privacy</a>
-          <a href="#" className="hover:opacity-100 transition-opacity">Terms</a>
-          <a href="#" className="hover:opacity-100 transition-opacity">FAQ</a>
-        </div>
+        <p className="text-xs opacity-30 mt-2">© 2026 KayHangeul. All rights reserved.</p>
       </div>
 
       {/* Scroll to top */}

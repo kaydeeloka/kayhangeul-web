@@ -19,7 +19,7 @@ const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
 // Toggle this to switch the FPX payment link between full price and diskaun.
-const IS_DISKAUN_ACTIVE = false;
+const IS_DISKAUN_ACTIVE = true;
 
 const FPX_URL_FULL    = "https://toyyibpay.com/Ebook-Kayhangeul-Edisi-Traveler";
 const FPX_URL_DISKAUN = "https://toyyibpay.com/Ebook-Edisi-Traveler";
@@ -152,7 +152,10 @@ export default function PaymentPanel({
           rel="noopener noreferrer"
           className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
         >
-          <span>🏦 Pay with FPX/DuitNow QR</span>
+          <span className="flex items-center gap-2">
+            🏦 Pay with FPX/DuitNow QR
+            {IS_DISKAUN_ACTIVE}
+          </span>
           <span className="text-xs font-normal opacity-70">Online Banking Malaysia</span>
         </Link>
 
