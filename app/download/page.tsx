@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { verifyDownloadToken } from "@/app/lib/downloadToken";
+import { verifyDownloadToken } from "@/lib/downloadToken";
 
 export default async function DownloadPage({
   searchParams,

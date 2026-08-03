@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "crypto";
-import { sendPurchaseEmail } from "@/app/lib/sendPurchaseEmail";
+import { sendPurchaseEmail } from "@/lib/sendPurchaseEmail";
 
 // Configure Callback URL in ToyyibPay category settings (not available on localhost)
 export async function POST(req: NextRequest) {

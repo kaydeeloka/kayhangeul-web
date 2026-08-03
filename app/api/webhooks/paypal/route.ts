@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { sendPurchaseEmail } from "@/app/lib/sendPurchaseEmail";
+import { sendPurchaseEmail } from "@/lib/sendPurchaseEmail";
 
 // Handles both PayPal IPN (form-encoded) and REST webhook (JSON)
 export async function POST(req: NextRequest) {
