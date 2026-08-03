@@ -1,25 +1,20 @@
 // ============================================================
-//  MiMuse Dashboard — API entry point
-//  Data: Supabase (influencers, EMS, monitoring, beauty news)
-//  Integrations: Apify, Microsoft Outlook Graph
+//  KayHangeul Traveler — API entry point
+//  Sheet: Reviews / Purchases / Messages
+//  Feature routers: reviews.gs, purchases.gs, contact.gs
 // ============================================================
 
-// Script Properties helper (shared across feature files)
-function scriptProp(key) {
-  return PropertiesService.getScriptProperties().getProperty(key);
-}
+const SPREADSHEET_ID = "1HVuy-uBPzYq9qwsx0U50ZyIkw2BaSP9wV49j_FMGBdc";
 
-// Supabase REST helpers → api/supabase.gs
+function getSheet(name) {
+  return SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(name);
+}
 
 // Feature routers — each file owns its own routeXxx(action, p, body)
 const FEATURE_ROUTERS = [
-  routeTcmListup,
-  routeOutlook,
-  routeMonitoring,
-  routeBeautyNews,
-  routeEms,
-  routeSheets,
-  routeConfirmedImport,
+  routeReviews,
+  routePurchases,
+  routeContact,
 ];
 
 function _dispatch(action, p, body) {
@@ -33,47 +28,44 @@ function _dispatch(action, p, body) {
 // ── GET dispatcher ────────────────────────────────────────────
 function doGet(e) {
   const p      = (e && e.parameter) || {};
-  const action = p.action || '';
+  const action = p.action || "";
 
   let result;
   try {
     result = _dispatch(action, p, null);
-    if (result === null && action === 'test') {
-      result = { ok: true, sent: sendBeautyNewsEmail(
-        _fetchRecipientEmailsFromSupabase(),
-        '<p>WebFetch 테스트 이메일입니다. 이게 도착하면 GET 방식 연결 성공!</p>',
-        '[테스트] WebFetch 연결 확인'
-      ) };
-    }
-    if (result === null) result = { ok: true, api: 'MiMuse GAS API v1' };
+    if (result === null) result = { error: "unknown action" };
   } catch (err) {
-    result = { error: err.toString() };
+    result = { error: err.message };
   }
 
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
+  return json(result);
 }
 
 // ── POST dispatcher ───────────────────────────────────────────
 function doPost(e) {
   let payload;
-  try { payload = JSON.parse(e.postData.contents); }
-  catch (_) { return ContentService.createTextOutput('ok'); }
-
-  if (!payload.action) {
-    return ContentService.createTextOutput('ok');
+  try {
+    payload = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return json({ error: "Invalid JSON body." });
   }
+
+  // Existing Next.js routes send `type`; keep `action` as an alias for parity with the router template.
+  const action = payload.type || payload.action || "";
 
   let result;
   try {
-    result = _dispatch(payload.action, null, payload);
-    if (result === null) result = { error: 'Unknown action: ' + payload.action };
+    result = _dispatch(action, null, payload);
+    if (result === null) result = { error: "Unknown action: " + action };
   } catch (err) {
-    result = { error: err.toString() };
+    result = { error: err.message };
   }
 
+  return json(result);
+}
+
+function json(obj) {
   return ContentService
-    .createTextOutput(JSON.stringify(result))
+    .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }
