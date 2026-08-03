@@ -4,12 +4,16 @@ export type PurchaseRow = {
   timestamp: string;
   provider: string;
   order_id: string;
-  amount: string;
+  bill: string;
+  fees: string;
+  net: string;
   status: string;
   name: string;
   email: string;
   payment_method: string;
 };
+
+const TOYYIBPAY_FLAT_FEE = 1;
 
 export function parseToyyibPayFile(buffer: ArrayBuffer): PurchaseRow[] {
   const workbook = XLSX.read(buffer, { type: "array" });
@@ -35,14 +39,22 @@ export function parseToyyibPayFile(buffer: ArrayBuffer): PurchaseRow[] {
   return rows
     .slice(1)
     .filter((r) => r.some((cell) => String(cell).trim() !== ""))
-    .map((r) => ({
-      timestamp:      String(r[iTxnDate] ?? "").trim(),
-      provider:       "toyyibpay",
-      order_id:       String(r[iRefNo] ?? "").trim(),
-      amount:         String(r[iAmountPaid] ?? "").trim(),
-      status:         "success",
-      name:           String(r[iPayerName] ?? "").trim(),
-      email:          String(r[iPayerEmail] ?? "").trim(),
-      payment_method: iMethod !== -1 ? String(r[iMethod] ?? "").trim() : "",
-    }));
+    .map((r) => {
+      const bill = parseFloat(String(r[iAmountPaid] ?? "").trim()) || 0;
+      const fees = TOYYIBPAY_FLAT_FEE;
+      const net  = bill - fees;
+
+      return {
+        timestamp:      String(r[iTxnDate] ?? "").trim(),
+        provider:       "toyyibpay",
+        order_id:       String(r[iRefNo] ?? "").trim(),
+        bill:           bill.toFixed(2),
+        fees:           fees.toFixed(2),
+        net:            net.toFixed(2),
+        status:         "success",
+        name:           String(r[iPayerName] ?? "").trim(),
+        email:          String(r[iPayerEmail] ?? "").trim(),
+        payment_method: iMethod !== -1 ? String(r[iMethod] ?? "").trim() : "",
+      };
+    });
 }

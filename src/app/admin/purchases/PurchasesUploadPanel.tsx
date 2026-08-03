@@ -6,11 +6,12 @@ type UploadResult = {
   parsed: number;
   added: number;
   skipped: number;
-  totalRevenue: number;
-  byMethod: Record<string, { count: number; revenue: number }>;
+  totalBill: number;
+  totalNet: number;
+  byMethod: Record<string, { count: number; bill: number; net: number }>;
 };
 
-export default function PurchasesUploadPanel() {
+export default function PurchasesUploadPanel({ onUploaded }: { onUploaded?: () => void }) {
   const [file, setFile]           = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError]         = useState("");
@@ -31,6 +32,7 @@ export default function PurchasesUploadPanel() {
 
       if (!res.ok) throw new Error(data.error || "Upload failed.");
       setResult(data);
+      onUploaded?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
     } finally {
@@ -67,13 +69,13 @@ export default function PurchasesUploadPanel() {
             skipped <strong>{result.skipped}</strong> duplicate order IDs already in the sheet.
           </p>
           <p className="font-sans text-lg font-black text-korean-red">
-            RM {result.totalRevenue.toFixed(2)} total revenue in this upload
+            RM {result.totalNet.toFixed(2)} net (RM {result.totalBill.toFixed(2)} billed) in this upload
           </p>
           <div className="space-y-1">
             {Object.entries(result.byMethod).map(([method, stats]) => (
               <div key={method} className="flex items-center justify-between font-sans text-sm text-text-mid">
                 <span>{method}</span>
-                <span>{stats.count} · RM {stats.revenue.toFixed(2)}</span>
+                <span>{stats.count} · RM {stats.net.toFixed(2)} net</span>
               </div>
             ))}
           </div>

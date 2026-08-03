@@ -1,14 +1,15 @@
 // ============================================================
-//  Purchases router — action: purchase, purchases_bulk, purchase-count
+//  Purchases router — action: purchase, purchases_bulk,
+//  purchase-count, purchases-summary, purchases-list
+//  Row shape: Timestamp, Provider, Order ID, Bill, Fees, Net, Status, Name, Email, Payment Method
 // ============================================================
 
 function routePurchases(action, p, body) {
   switch (action) {
     case "purchase":
-      // Row shape: Timestamp, Provider, Order ID, Amount, Status, Name, Email, Payment Method
       getSheet("Purchases").appendRow([
-        new Date(), body.provider, body.order_id, body.amount, body.status,
-        body.name || "", body.email, body.payment_method || "",
+        new Date(), body.provider, body.order_id, body.bill || "", body.fees || "", body.net || "",
+        body.status, body.name || "", body.email, body.payment_method || "",
       ]);
       return { success: true };
 
@@ -17,8 +18,34 @@ function routePurchases(action, p, body) {
 
     case "purchase-count": {
       const rows  = getSheet("Purchases").getDataRange().getValues().slice(1);
-      const count = rows.filter(r => r[4] === "success").length;
+      const count = rows.filter(r => r[6] === "success").length;
       return { count };
+    }
+
+    case "purchases-summary": {
+      const rows = getSheet("Purchases").getDataRange().getValues().slice(1)
+        .filter(r => r[6] === "success");
+      const totalBill = rows.reduce((sum, r) => sum + (Number(r[3]) || 0), 0);
+      const totalFees = rows.reduce((sum, r) => sum + (Number(r[4]) || 0), 0);
+      const totalNet  = rows.reduce((sum, r) => sum + (Number(r[5]) || 0), 0);
+      return { count: rows.length, totalBill, totalFees, totalNet };
+    }
+
+    case "purchases-list": {
+      const rows = getSheet("Purchases").getDataRange().getValues().slice(1);
+      const purchases = rows.map(r => ({
+        timestamp:      r[0] ? Utilities.formatDate(new Date(r[0]), "Asia/Kuala_Lumpur", "dd MMM yyyy HH:mm") : "",
+        provider:       r[1],
+        order_id:       r[2],
+        bill:           Number(r[3]) || 0,
+        fees:           Number(r[4]) || 0,
+        net:            Number(r[5]) || 0,
+        status:         r[6],
+        name:           r[7],
+        email:          r[8],
+        payment_method: r[9],
+      })).reverse();
+      return { purchases };
     }
 
     default:
@@ -26,7 +53,7 @@ function routePurchases(action, p, body) {
   }
 }
 
-// rows: [{ timestamp, provider, order_id, amount, status, name, email, payment_method }]
+// rows: [{ timestamp, provider, order_id, bill, fees, net, status, name, email, payment_method }]
 function appendPurchasesBulk(rows) {
   const sheet    = getSheet("Purchases");
   const existing = sheet.getDataRange().getValues().slice(1);
@@ -46,7 +73,9 @@ function appendPurchasesBulk(rows) {
       row.timestamp ? new Date(row.timestamp) : new Date(),
       row.provider || "",
       orderId,
-      row.amount || "",
+      row.bill || "",
+      row.fees || "",
+      row.net || "",
       row.status || "",
       row.name || "",
       row.email || "",
@@ -55,7 +84,7 @@ function appendPurchasesBulk(rows) {
   });
 
   if (toAppend.length > 0) {
-    sheet.getRange(sheet.getLastRow() + 1, 1, toAppend.length, 8).setValues(toAppend);
+    sheet.getRange(sheet.getLastRow() + 1, 1, toAppend.length, 10).setValues(toAppend);
   }
 
   return { success: true, added: toAppend.length, skipped };

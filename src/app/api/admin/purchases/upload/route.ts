@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { ADMIN_COOKIE, isValidAdminSession } from "@/src/lib/adminAuth";
+import { requireAdmin } from "@/src/lib/adminAuth";
 import { parseToyyibPayFile } from "@/src/lib/parsePurchasesFile";
+import { gasPost } from "@/src/lib/gas";
 
 export async function POST(req: NextRequest) {
-  const cookieStore = await cookies();
-  if (!isValidAdminSession(cookieStore.get(ADMIN_COOKIE)?.value)) {
+  if (!(await requireAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -28,29 +27,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No rows found in file." }, { status: 400 });
   }
 
-  const scriptUrl = process.env.GOOGLE_TRAVEL_SCRIPT_URL;
-  if (!scriptUrl) {
-    return NextResponse.json({ error: "Server misconfiguration." }, { status: 500 });
+  let sheetData;
+  try {
+    sheetData = await gasPost<{ added: number; skipped: number }>({ type: "purchases_bulk", rows });
+  } catch (err) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Failed to sync to sheet." }, { status: 502 });
   }
 
-  const sheetRes  = await fetch(scriptUrl, {
-    method:  "POST",
-    headers: { "Content-Type": "application/json" },
-    body:    JSON.stringify({ type: "purchases_bulk", rows }),
-  });
-  const sheetData = await sheetRes.json();
-
-  if (sheetData.error) {
-    return NextResponse.json({ error: sheetData.error }, { status: 502 });
-  }
-
-  const totalRevenue = rows.reduce((sum, r) => sum + (parseFloat(r.amount) || 0), 0);
-  const byMethod: Record<string, { count: number; revenue: number }> = {};
+  const totalBill = rows.reduce((sum, r) => sum + (parseFloat(r.bill) || 0), 0);
+  const totalNet  = rows.reduce((sum, r) => sum + (parseFloat(r.net)  || 0), 0);
+  const byMethod: Record<string, { count: number; bill: number; net: number }> = {};
   for (const r of rows) {
     const method = r.payment_method || "Unknown";
-    byMethod[method] ??= { count: 0, revenue: 0 };
-    byMethod[method].count   += 1;
-    byMethod[method].revenue += parseFloat(r.amount) || 0;
+    byMethod[method] ??= { count: 0, bill: 0, net: 0 };
+    byMethod[method].count += 1;
+    byMethod[method].bill  += parseFloat(r.bill) || 0;
+    byMethod[method].net   += parseFloat(r.net)  || 0;
   }
 
   return NextResponse.json({
@@ -58,7 +50,8 @@ export async function POST(req: NextRequest) {
     parsed:  rows.length,
     added:   sheetData.added,
     skipped: sheetData.skipped,
-    totalRevenue,
+    totalBill,
+    totalNet,
     byMethod,
   });
 }
