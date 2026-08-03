@@ -41,7 +41,7 @@ export default function PurchasesUploadPanel({ onUploaded }: { onUploaded?: () =
   }
 
   return (
-    <div className="space-y-6 rounded-2xl border border-cherry-pink/30 bg-white p-6">
+    <div className="space-y-6 rounded-2xl border border-cherry-pink/30 bg-white p-6 shadow-sm">
       <div className="space-y-2">
         <p className="font-sans text-sm font-bold text-text-dark">Upload ToyyibPay report (Excel or CSV)</p>
         <input

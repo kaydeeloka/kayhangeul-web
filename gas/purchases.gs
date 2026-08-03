@@ -1,6 +1,6 @@
 // ============================================================
 //  Purchases router — action: purchase, purchases_bulk,
-//  purchase-count, purchases-summary, purchases-list
+//  purchase-count, purchases-summary, purchases-monthly, purchases-list
 //  Row shape: Timestamp, Provider, Order ID, Bill, Fees, Net, Status, Name, Email, Payment Method
 // ============================================================
 
@@ -23,12 +23,41 @@ function routePurchases(action, p, body) {
     }
 
     case "purchases-summary": {
-      const rows = getSheet("Purchases").getDataRange().getValues().slice(1)
-        .filter(r => r[6] === "success");
+      const rows = getSheet("Purchases").getDataRange().getValues().slice(1);
       const totalBill = rows.reduce((sum, r) => sum + (Number(r[3]) || 0), 0);
       const totalFees = rows.reduce((sum, r) => sum + (Number(r[4]) || 0), 0);
       const totalNet  = rows.reduce((sum, r) => sum + (Number(r[5]) || 0), 0);
       return { count: rows.length, totalBill, totalFees, totalNet };
+    }
+
+    case "purchases-monthly": {
+      const rows = getSheet("Purchases").getDataRange().getValues().slice(1)
+        .filter(r => r[0]);
+
+      const buckets = {}; // "yyyy-MM" -> { count, bill, net }
+      rows.forEach(r => {
+        const key = Utilities.formatDate(new Date(r[0]), "Asia/Kuala_Lumpur", "yyyy-MM");
+        if (!buckets[key]) buckets[key] = { count: 0, bill: 0, net: 0 };
+        buckets[key].count += 1;
+        buckets[key].bill  += Number(r[3]) || 0;
+        buckets[key].net   += Number(r[5]) || 0;
+      });
+
+      // Last 6 months, oldest first, including months with zero sales.
+      const months = [];
+      const now = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d   = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const key = Utilities.formatDate(d, "Asia/Kuala_Lumpur", "yyyy-MM");
+        const b   = buckets[key] || { count: 0, bill: 0, net: 0 };
+        months.push({
+          month: Utilities.formatDate(d, "Asia/Kuala_Lumpur", "MMM"),
+          count: b.count,
+          bill:  b.bill,
+          net:   b.net,
+        });
+      }
+      return { months };
     }
 
     case "purchases-list": {

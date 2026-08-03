@@ -12,9 +12,9 @@ export type ReviewRow = {
 };
 
 const STATUS_STYLES: Record<string, string> = {
-  approved: "text-green-600",
-  rejected: "text-red-500",
-  pending:  "text-text-light",
+  approved: "bg-green-100 text-green-700",
+  rejected: "bg-red-100 text-red-600",
+  pending:  "bg-gray-100 text-text-light",
 };
 
 export default function ReviewsModerationView({ initialReviews }: { initialReviews: ReviewRow[] }) {
@@ -43,12 +43,12 @@ export default function ReviewsModerationView({ initialReviews }: { initialRevie
   }
 
   return (
-    <div className="rounded-2xl border border-cherry-pink/30 bg-white p-6">
+    <div className="rounded-2xl border border-cherry-pink/30 bg-white p-6 shadow-sm">
       {error && <p className="mb-4 font-sans text-xs text-red-500">{error}</p>}
 
       <div className="space-y-4">
         {reviews.map((r) => (
-          <div key={r.row} className="rounded-xl border border-cherry-pink/20 p-4">
+          <div key={r.row} className="rounded-xl border border-cherry-pink/20 p-4 transition-colors hover:bg-warm-linen/40">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <p className="font-sans text-sm font-bold text-text-dark">
@@ -56,7 +56,7 @@ export default function ReviewsModerationView({ initialReviews }: { initialRevie
                 </p>
                 <p className="font-sans text-xs text-yellow-600">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</p>
               </div>
-              <span className={`font-sans text-xs font-bold uppercase ${STATUS_STYLES[r.status] ?? "text-text-light"}`}>
+              <span className={`rounded-full px-2 py-0.5 font-sans text-xs font-bold uppercase ${STATUS_STYLES[r.status] ?? "bg-gray-100 text-text-light"}`}>
                 {r.status}
               </span>
             </div>
