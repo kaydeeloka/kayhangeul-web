@@ -18,6 +18,17 @@ const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 const PAYPAL_URL = "https://www.paypal.com/ncp/payment/MVQQW7DGDMQ5Q";
 
+// Toggle this to switch the FPX payment link between full price and diskaun.
+const IS_DISKAUN_ACTIVE = false;
+
+const FPX_URL_FULL    = "https://toyyibpay.com/Ebook-Kayhangeul-Edisi-Traveler";
+const FPX_URL_DISKAUN = "https://toyyibpay.com/Ebook-Edisi-Traveler";
+const FPX_URL = IS_DISKAUN_ACTIVE ? FPX_URL_DISKAUN : FPX_URL_FULL;
+
+const PRICE_FULL    = 24.90;
+const PRICE_DISKAUN = 15.90;
+const DISCOUNT_PERCENT = Math.round((1 - PRICE_DISKAUN / PRICE_FULL) * 100);
+
 type ReviewStats = { count: number; average: number };
 
 export default function PaymentPanel({
@@ -122,17 +133,21 @@ export default function PaymentPanel({
         </div>
 
         <div className="space-y-1">
-          <p className="font-sans font-black text-3xl text-korean-red">RM 24.90</p>
-          <div className="hidden items-center gap-2">
-            <span className="font-sans text-base text-text-light line-through">RM 24.90</span>
-            <span className="rounded-full bg-korean-red px-2.5 py-0.5 text-xs font-black text-white">40% OFF</span>
-          </div>
+          <p className="font-sans font-black text-3xl text-korean-red">
+            RM {(IS_DISKAUN_ACTIVE ? PRICE_DISKAUN : PRICE_FULL).toFixed(2)}
+          </p>
+          {IS_DISKAUN_ACTIVE && (
+            <div className="flex items-center gap-2">
+              <span className="font-sans text-base text-text-light line-through">RM {PRICE_FULL.toFixed(2)}</span>
+              <span className="rounded-full bg-korean-red px-2.5 py-0.5 text-xs font-black text-white">{DISCOUNT_PERCENT}% OFF</span>
+            </div>
+          )}
         </div>
 
         <p className="pt-1 font-sans text-xs font-bold uppercase tracking-widest text-text-light">Pilih kaedah pembayaran:</p>
 
         <Link
-          href="https://toyyibpay.com/Ebook-Kayhangeul-Edisi-Traveler"
+          href={FPX_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="flex w-full cursor-pointer items-center justify-between rounded-2xl bg-korean-blue px-6 py-4 font-sans text-sm font-bold tracking-wide text-white transition-opacity hover:opacity-90"
