@@ -1,7 +1,8 @@
 // ============================================================
 //  Purchases router — action: purchase, purchases_bulk,
-//  purchase-count, purchases-summary, purchases-monthly, purchases-list
-//  Row shape: Timestamp, Provider, Order ID, Bill, Fees, Net, Status, Name, Email, Payment Method
+//  purchase-count, purchases-summary, purchases-monthly, purchases-list,
+//  purchases-by-method, purchases-by-country
+//  Row shape: Timestamp, Provider, Order ID, Bill, Fees, Net, Status, Name, Email, Payment Method, Country
 // ============================================================
 
 function routePurchases(action, p, body) {
@@ -9,7 +10,7 @@ function routePurchases(action, p, body) {
     case "purchase":
       getSheet("Purchases").appendRow([
         new Date(), body.provider, body.order_id, body.bill || "", body.fees || "", body.net || "",
-        body.status, body.name || "", body.email, body.payment_method || "",
+        body.status, body.name || "", body.email, body.payment_method || "", body.country || "",
       ]);
       return { success: true };
 
@@ -60,6 +61,37 @@ function routePurchases(action, p, body) {
       return { months };
     }
 
+    case "purchases-by-method": {
+      const rows = getSheet("Purchases").getDataRange().getValues().slice(1);
+      const buckets = {}; // provider -> { count, total }
+      rows.forEach(r => {
+        const method = r[1] || "Unknown";
+        if (!buckets[method]) buckets[method] = { count: 0, total: 0 };
+        buckets[method].count += 1;
+        buckets[method].total += Number(r[3]) || 0;
+      });
+      const methods = Object.keys(buckets)
+        .map(method => ({ method, count: buckets[method].count, total: buckets[method].total }))
+        .sort((a, b) => b.total - a.total);
+      return { methods };
+    }
+
+    case "purchases-by-country": {
+      const rows = getSheet("Purchases").getDataRange().getValues().slice(1);
+      const buckets = {}; // country -> { count, total }
+      rows.forEach(r => {
+        const country = r[10] || "Unknown";
+        if (!buckets[country]) buckets[country] = { count: 0, total: 0 };
+        buckets[country].count += 1;
+        buckets[country].total += Number(r[3]) || 0;
+      });
+      const countries = Object.keys(buckets)
+        .map(country => ({ country, count: buckets[country].count, total: buckets[country].total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 5);
+      return { countries };
+    }
+
     case "purchases-list": {
       const rows = getSheet("Purchases").getDataRange().getValues().slice(1);
       const purchases = rows.map(r => ({
@@ -73,6 +105,7 @@ function routePurchases(action, p, body) {
         name:           r[7],
         email:          r[8],
         payment_method: r[9],
+        country:        r[10] || "",
       })).reverse();
       return { purchases };
     }
@@ -82,7 +115,7 @@ function routePurchases(action, p, body) {
   }
 }
 
-// rows: [{ timestamp, provider, order_id, bill, fees, net, status, name, email, payment_method }]
+// rows: [{ timestamp, provider, order_id, bill, fees, net, status, name, email, payment_method, country }]
 function appendPurchasesBulk(rows) {
   const sheet    = getSheet("Purchases");
   const existing = sheet.getDataRange().getValues().slice(1);
@@ -109,11 +142,12 @@ function appendPurchasesBulk(rows) {
       row.name || "",
       row.email || "",
       row.payment_method || "",
+      row.country || "",
     ]);
   });
 
   if (toAppend.length > 0) {
-    sheet.getRange(sheet.getLastRow() + 1, 1, toAppend.length, 10).setValues(toAppend);
+    sheet.getRange(sheet.getLastRow() + 1, 1, toAppend.length, 11).setValues(toAppend);
   }
 
   return { success: true, added: toAppend.length, skipped };

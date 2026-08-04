@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import PurchasesUploadPanel from "./PurchasesUploadPanel";
+import PayPalSyncPanel from "./PayPalSyncPanel";
 
 export type Purchase = {
   timestamp: string;
@@ -14,6 +15,7 @@ export type Purchase = {
   name: string;
   email: string;
   payment_method: string;
+  country: string;
 };
 
 const PAGE_SIZE = 20;
@@ -75,7 +77,10 @@ export default function PurchasesView({ initialPurchases }: { initialPurchases: 
 
   return (
     <div className="space-y-6">
-      <PurchasesUploadPanel onUploaded={refresh} />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <PurchasesUploadPanel onUploaded={refresh} />
+        <PayPalSyncPanel onSynced={refresh} />
+      </div>
 
       <div className="rounded-2xl border border-cherry-pink/30 bg-white p-6 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -112,6 +117,7 @@ export default function PurchasesView({ initialPurchases }: { initialPurchases: 
                 <th className="py-3 pr-4 text-right">Net</th>
                 <th className="py-3 pr-4">Method</th>
                 <th className="py-3 pr-4">Status</th>
+                <th className="py-3 pr-4">Country</th>
               </tr>
             </thead>
             <tbody>
@@ -134,11 +140,12 @@ export default function PurchasesView({ initialPurchases }: { initialPurchases: 
                       {p.status || "—"}
                     </span>
                   </td>
+                  <td className="py-2.5 pr-4 whitespace-nowrap">{p.country || "—"}</td>
                 </tr>
               ))}
               {pageRows.length === 0 && (
                 <tr>
-                  <td colSpan={10} className="py-6 text-center text-text-light">No purchases match these filters.</td>
+                  <td colSpan={11} className="py-6 text-center text-text-light">No purchases match these filters.</td>
                 </tr>
               )}
             </tbody>

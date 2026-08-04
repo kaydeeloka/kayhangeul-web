@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdmin } from "@/src/lib/adminAuth";
-import { parseToyyibPayFile, summarizePurchaseRows } from "@/src/lib/parsePurchasesFile";
+import { summarizePurchaseRows } from "@/src/lib/parsePurchasesFile";
+import { fetchPayPalPurchases } from "@/src/lib/paypal";
 import { gasPost } from "@/src/lib/gas";
 
 export async function POST(req: NextRequest) {
@@ -8,23 +9,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const form = await req.formData();
-  const file = form.get("file");
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "No file uploaded." }, { status: 400 });
+  const { startDate, endDate } = await req.json();
+  if (!startDate || !endDate) {
+    return NextResponse.json({ error: "startDate and endDate are required." }, { status: 400 });
   }
-
-  const buffer = await file.arrayBuffer();
 
   let rows;
   try {
-    rows = parseToyyibPayFile(buffer);
+    rows = await fetchPayPalPurchases(startDate, endDate);
   } catch (err) {
-    return NextResponse.json({ error: err instanceof Error ? err.message : "Failed to parse file." }, { status: 400 });
+    return NextResponse.json({ error: err instanceof Error ? err.message : "Failed to fetch PayPal transactions." }, { status: 502 });
   }
 
   if (rows.length === 0) {
-    return NextResponse.json({ error: "No rows found in file." }, { status: 400 });
+    return NextResponse.json({ success: true, parsed: 0, added: 0, skipped: 0, totalBill: 0, totalNet: 0, byMethod: {} });
   }
 
   let sheetData;

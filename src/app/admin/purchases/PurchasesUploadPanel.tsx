@@ -1,21 +1,13 @@
 "use client";
 
 import { useState } from "react";
-
-type UploadResult = {
-  parsed: number;
-  added: number;
-  skipped: number;
-  totalBill: number;
-  totalNet: number;
-  byMethod: Record<string, { count: number; bill: number; net: number }>;
-};
+import SyncResultSummary, { type SyncResult } from "./SyncResultSummary";
 
 export default function PurchasesUploadPanel({ onUploaded }: { onUploaded?: () => void }) {
   const [file, setFile]           = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError]         = useState("");
-  const [result, setResult]       = useState<UploadResult | null>(null);
+  const [result, setResult]       = useState<SyncResult | null>(null);
 
   async function handleUpload() {
     if (!file) return;
@@ -61,26 +53,7 @@ export default function PurchasesUploadPanel({ onUploaded }: { onUploaded?: () =
       </div>
 
       {error && <p className="font-sans text-xs text-red-500">{error}</p>}
-
-      {result && (
-        <div className="space-y-3 border-t border-cherry-pink/30 pt-4">
-          <p className="font-sans text-sm text-text-mid">
-            Parsed <strong>{result.parsed}</strong> rows — added <strong>{result.added}</strong> new,
-            skipped <strong>{result.skipped}</strong> duplicate order IDs already in the sheet.
-          </p>
-          <p className="font-sans text-lg font-black text-korean-red">
-            RM {result.totalNet.toFixed(2)} net (RM {result.totalBill.toFixed(2)} billed) in this upload
-          </p>
-          <div className="space-y-1">
-            {Object.entries(result.byMethod).map(([method, stats]) => (
-              <div key={method} className="flex items-center justify-between font-sans text-sm text-text-mid">
-                <span>{method}</span>
-                <span>{stats.count} · RM {stats.net.toFixed(2)} net</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {result && <SyncResultSummary result={result} />}
     </div>
   );
 }

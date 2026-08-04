@@ -11,6 +11,7 @@ export type PurchaseRow = {
   name: string;
   email: string;
   payment_method: string;
+  country: string;
 };
 
 const TOYYIBPAY_FLAT_FEE = 1;
@@ -55,6 +56,21 @@ export function parseToyyibPayFile(buffer: ArrayBuffer): PurchaseRow[] {
         name:           String(r[iPayerName] ?? "").trim(),
         email:          String(r[iPayerEmail] ?? "").trim(),
         payment_method: iMethod !== -1 ? String(r[iMethod] ?? "").trim() : "",
+        country:        "Malaysia",
       };
     });
+}
+
+export function summarizePurchaseRows(rows: PurchaseRow[]) {
+  const totalBill = rows.reduce((sum, r) => sum + (parseFloat(r.bill) || 0), 0);
+  const totalNet  = rows.reduce((sum, r) => sum + (parseFloat(r.net)  || 0), 0);
+  const byMethod: Record<string, { count: number; bill: number; net: number }> = {};
+  for (const r of rows) {
+    const method = r.payment_method || "Unknown";
+    byMethod[method] ??= { count: 0, bill: 0, net: 0 };
+    byMethod[method].count += 1;
+    byMethod[method].bill  += parseFloat(r.bill) || 0;
+    byMethod[method].net   += parseFloat(r.net)  || 0;
+  }
+  return { totalBill, totalNet, byMethod };
 }

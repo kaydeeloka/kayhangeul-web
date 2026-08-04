@@ -7,21 +7,27 @@ import BalanceCard from "./BalanceCard";
 import SalesChart from "./SalesChart";
 import RecentPurchases from "./RecentPurchases";
 import RecentReviews from "./RecentReviews";
+import PaymentMethodDonut from "./PaymentMethodDonut";
+import TopCountries from "./TopCountries";
 
 type PurchasesSummary = { count: number; totalBill: number; totalFees: number; totalNet: number };
 type ReviewStats       = { count: number; average: number };
 type MonthPoint        = { month: string; count: number; bill: number; net: number };
 type Purchase          = { timestamp: string; order_id: string; net: number; name: string; payment_method: string };
 type Review            = { row: number; date: string; name: string; rating: number; status: string };
+type MethodTotal       = { method: string; count: number; total: number };
+type CountryTotal      = { country: string; count: number; total: number };
 
 async function getDashboardData() {
   try {
-    const [purchasesSummary, reviewStats, monthly, purchasesList, reviewsList] = await Promise.all([
+    const [purchasesSummary, reviewStats, monthly, purchasesList, reviewsList, byMethod, byCountry] = await Promise.all([
       gasGet<PurchasesSummary>("purchases-summary"),
       gasGet<ReviewStats>("review-stats"),
       gasGet<{ months: MonthPoint[] }>("purchases-monthly"),
       gasGet<{ purchases: Purchase[] }>("purchases-list"),
       gasGet<{ reviews: Review[] }>("reviews-list"),
+      gasGet<{ methods: MethodTotal[] }>("purchases-by-method"),
+      gasGet<{ countries: CountryTotal[] }>("purchases-by-country"),
     ]);
     return {
       purchasesSummary,
@@ -29,6 +35,8 @@ async function getDashboardData() {
       months:          monthly.months,
       recentPurchases: purchasesList.purchases.slice(0, 5),
       recentReviews:   reviewsList.reviews.slice(0, 5),
+      methods:         byMethod.methods,
+      countries:       byCountry.countries,
       error: null,
     };
   } catch (err) {
@@ -38,6 +46,8 @@ async function getDashboardData() {
       months:            [] as MonthPoint[],
       recentPurchases:   [] as Purchase[],
       recentReviews:     [] as Review[],
+      methods:           [] as MethodTotal[],
+      countries:         [] as CountryTotal[],
       error: err instanceof Error ? err.message : "Failed to load dashboard.",
     };
   }
@@ -46,7 +56,7 @@ async function getDashboardData() {
 export default async function AdminDashboardPage() {
   if (!(await requireAdmin())) redirect("/admin/login");
 
-  const { purchasesSummary, reviewStats, months, recentPurchases, recentReviews, error } = await getDashboardData();
+  const { purchasesSummary, reviewStats, months, recentPurchases, recentReviews, methods, countries, error } = await getDashboardData();
 
   return (
     <AdminShell>
@@ -101,16 +111,29 @@ export default async function AdminDashboardPage() {
               </div>
             </div>
 
+            <div className="rounded-2xl border border-cherry-pink/30 bg-white p-6 shadow-sm">
+              <p className="font-sans text-sm font-bold text-text-dark">Sales by Payment Instrument Type</p>
+              <div className="mt-4">
+                <PaymentMethodDonut methods={methods} />
+              </div>
+            </div>
+
             <RecentPurchases purchases={recentPurchases} />
           </div>
 
-          {/* Right: balance + recent reviews */}
+          {/* Right: balance + top countries + recent reviews */}
           <div className="space-y-6">
             <BalanceCard
               totalNet={purchasesSummary.totalNet}
               totalBill={purchasesSummary.totalBill}
               totalFees={purchasesSummary.totalFees}
             />
+
+            <div className="rounded-2xl border border-cherry-pink/30 bg-white p-6 shadow-sm">
+              <p className="mb-4 font-sans text-sm font-bold text-text-dark">Top 5 Countries by Sales</p>
+              <TopCountries countries={countries} />
+            </div>
+
             <RecentReviews reviews={recentReviews} />
           </div>
         </div>
